@@ -12,10 +12,10 @@ mdh 文档的**外观层**与**交互能力层**。
 
 ```ts
 // 文档外观：一份 CSS
-import '@mdh/theme/default.css';
+import '@mdh-kit/theme/default.css';
 
 // 能力：按需
-import { createInteract, attachInteract } from '@mdh/theme/interact';
+import { createInteract, attachInteract } from '@mdh-kit/theme/interact';
 ```
 
 包很小，没有运行时依赖。CSS 约 40KB，交互层约 17KB。
@@ -92,7 +92,7 @@ import { createInteract, attachInteract } from '@mdh/theme/interact';
 创建交互能力实例。**它不绑任何手势**。
 
 ```ts
-import { createInteract } from '@mdh/theme/interact';
+import { createInteract } from '@mdh-kit/theme/interact';
 
 const it = createInteract(container, {
   renderer,          // 可选：用于编辑保存
@@ -149,7 +149,7 @@ document.addEventListener('keydown', (e) => {
 不想自己写就用现成的：
 
 ```ts
-import { attachInteract } from '@mdh/theme/interact';
+import { attachInteract } from '@mdh-kit/theme/interact';
 
 attachInteract(container, renderer, {
   serializeNode: (node) => serialize(node),
@@ -218,6 +218,6 @@ it.refresh(keepId);
 
 ## 不做什么
 
-- **不做语法解析** —— 那是 `@mdh/core`
-- **不生成 HTML** —— 那是 `@mdh/render`
+- **不做语法解析** —— 那是 `@mdh-kit/core`
+- **不生成 HTML** —— 那是 `@mdh-kit/render`
 - **不绑手势** —— `createInteract` 只给能力；`attachInteract` 给的是「参考实现」，不是唯一答案

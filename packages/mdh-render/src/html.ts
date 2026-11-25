@@ -17,7 +17,7 @@
  *   data-mdh-lang     代码语言
  */
 
-import type { AnyNode, RootNode } from '@mdh/core';
+import type { AnyNode, RootNode } from '@mdh-kit/core';
 import type { NumberInfo } from './numbering.ts';
 import { renderInline } from './inline.ts';
 import { footAnchorId } from './footnotes.ts';

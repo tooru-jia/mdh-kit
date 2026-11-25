@@ -14,16 +14,16 @@ const ok = [];
 const check = (n, f) => { try { f(); ok.push(n); } catch (e) { console.error('✖', n, e.message); throw e; } };
 
 // ── 1. ESM 导入 ──
-const coreEsm = await import('@mdh/core');
-const renderEsm = await import('@mdh/render');
+const coreEsm = await import('@mdh-kit/core');
+const renderEsm = await import('@mdh-kit/render');
 
-check('ESM：@mdh/core 导出 parse', () => assert.equal(typeof coreEsm.parse, 'function'));
-check('ESM：@mdh/core 导出 serialize / serializeNode / parseNode', () => {
+check('ESM：@mdh-kit/core 导出 parse', () => assert.equal(typeof coreEsm.parse, 'function'));
+check('ESM：@mdh-kit/core 导出 serialize / serializeNode / parseNode', () => {
   assert.equal(typeof coreEsm.serialize, 'function');
   assert.equal(typeof coreEsm.serializeNode, 'function');
   assert.equal(typeof coreEsm.parseNode, 'function');
 });
-check('ESM：@mdh/render 导出 render / createRenderer', () => {
+check('ESM：@mdh-kit/render 导出 render / createRenderer', () => {
   assert.equal(typeof renderEsm.render, 'function');
   assert.equal(typeof renderEsm.createRenderer, 'function');
 });
@@ -46,8 +46,8 @@ check('反向序列化：AST → 源码', () => {
 });
 
 // ── 4. CJS 导入 ──
-const coreCjs = require('@mdh/core');
-const renderCjs = require('@mdh/render');
+const coreCjs = require('@mdh-kit/core');
+const renderCjs = require('@mdh-kit/render');
 check('CJS：require 可用', () => {
   assert.equal(typeof coreCjs.parse, 'function');
   assert.equal(typeof renderCjs.render, 'function');

@@ -17,7 +17,7 @@
  * 四类口子：children / rows / columnBlocks / slides
  */
 
-import type { AnyNode, HeadingNode, RootNode } from '@mdh/core';
+import type { AnyNode, HeadingNode, RootNode } from '@mdh-kit/core';
 
 /** 目录里的一条 */
 export interface TocEntry {

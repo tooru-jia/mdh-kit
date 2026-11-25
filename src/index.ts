@@ -54,11 +54,11 @@
  */
 
 // ── 核心能力 ──
-export { parse, serialize, serializeNode, parseNode, parseNodes } from '@mdh/core';
-export type { RootNode } from '@mdh/core';
+export { parse, serialize, serializeNode, parseNode, parseNodes } from '@mdh-kit/core';
+export type { RootNode } from '@mdh-kit/core';
 
 // ── 渲染 ──
-export { render, createRenderer } from '@mdh/render';
+export { render, createRenderer } from '@mdh-kit/render';
 
 // ── 编译（补公式 / 图 / 高亮）──
 // 用 browser 版：不含 playwright，可在任何打包器环境跑
@@ -79,7 +79,7 @@ export {
   hasDefaultCss,
   MdhMissingDependency,
   missingDep,
-} from '@mdh/compile/browser';
+} from '@mdh-kit/compile/browser';
 
 export type {
   CompileAllOptions,
@@ -94,7 +94,7 @@ export type {
   ChartPluginOptions,
   InjectResult,
   MissingDependency,
-} from '@mdh/compile/browser';
+} from '@mdh-kit/compile/browser';
 
 // ── 渲染入口 ──
 // ⚠️ mount 依赖浏览器 DOM，所以在独立入口 `mdh-kit/mount`，不在主入口。

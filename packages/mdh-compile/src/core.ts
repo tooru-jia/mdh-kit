@@ -29,11 +29,11 @@ export interface CompileAllOptions extends CompileOptions, RenderOptions {
  *
  * @example
  * // Node 宿主
- * import { compile, fullPlugins } from '@mdh/compile/node';
+ * import { compile, fullPlugins } from '@mdh-kit/compile/node';
  * await compile(ast);
  *
  * // 浏览器宿主
- * import { compile, fullPlugins } from '@mdh/compile/browser';
+ * import { compile, fullPlugins } from '@mdh-kit/compile/browser';
  * await compile(ast);
  */
 export async function compile(

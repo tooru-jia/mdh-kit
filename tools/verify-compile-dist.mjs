@@ -1,5 +1,5 @@
 /**
- * 验证 @mdh/compile 两个宿主入口的构建产物
+ * 验证 @mdh-kit/compile 两个宿主入口的构建产物
  *
  * 重点：
  *   1. ESM / CJS 都能 import

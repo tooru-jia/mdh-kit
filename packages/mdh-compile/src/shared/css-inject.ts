@@ -2,7 +2,7 @@
  * 把默认主题 CSS 注入编译产物
  *
  * ── 为什么在 compile 这一层 ──
- * CSS 来自 `@mdh/theme/default.css`，但**注入动作**属于产出 HTML 的人。
+ * CSS 来自 `@mdh-kit/theme/default.css`，但**注入动作**属于产出 HTML 的人。
  * export 之前是自己去读文件、自己拼 `<style>`；现在统一在这里做，
  * 调用方只需要说「我要带样式」。
  *

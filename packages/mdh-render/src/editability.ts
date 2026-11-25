@@ -13,7 +13,7 @@
  * 接口和调用方都不用动。
  */
 
-import type { AnyNode } from '@mdh/core';
+import type { AnyNode } from '@mdh-kit/core';
 
 /** 一个块的编辑能力 */
 export interface Editability {

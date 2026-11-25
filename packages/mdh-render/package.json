@@ -1,5 +1,5 @@
 {
-  "name": "@mdh/render",
+  "name": "@mdh-kit/render",
   "version": "1.0.0",
   "type": "module",
   "description": "mdh 渲染层：把 AST 画成页面，含编号计算与增删查改",
@@ -26,7 +26,7 @@
   ],
   "sideEffects": false,
   "dependencies": {
-    "@mdh/core": "1.0.0"
+    "@mdh-kit/core": "1.0.0"
   },
   "scripts": {
     "build": "tsup"

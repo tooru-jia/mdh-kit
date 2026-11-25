@@ -1,8 +1,8 @@
 /**
  * 校验默认主题 CSS 只有一份
  *
- * 历史上 `@mdh/css` 与 `@mdh/theme` 各存一份 default.css（迁移期复制），
- * 靠哈希比对保证不漂移。2026-11 已合并：`@mdh/css` 删除，CSS 唯一来源是
+ * 历史上 `@mdh-kit/css` 与 `@mdh-kit/theme` 各存一份 default.css（迁移期复制），
+ * 靠哈希比对保证不漂移。2026-11 已合并：`@mdh-kit/css` 删除，CSS 唯一来源是
  * `packages/mdh-theme/themes/default.css`。
  *
  * 这个脚本现在守的是「不要再次出现第二份」。

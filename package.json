@@ -86,10 +86,10 @@
     "verify:package-links": "node tools/verify-package-links.mjs"
   },
   "dependencies": {
-    "@mdh/compile": "1.0.0",
-    "@mdh/core": "1.0.0",
-    "@mdh/render": "1.0.0",
-    "@mdh/theme": "1.0.0"
+    "@mdh-kit/compile": "1.0.0",
+    "@mdh-kit/core": "1.0.0",
+    "@mdh-kit/render": "1.0.0",
+    "@mdh-kit/theme": "1.0.0"
   },
   "peerDependencies": {
     "chart.js": "^4.0.0",

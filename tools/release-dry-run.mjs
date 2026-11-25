@@ -18,10 +18,10 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 /** 发布顺序：被依赖的在前 */
 const PACKAGES = [
   { dir: '.', name: 'mdh-kit' },
-  { dir: 'packages/mdh-core', name: '@mdh/core' },
-  { dir: 'packages/mdh-render', name: '@mdh/render' },
-  { dir: 'packages/mdh-compile', name: '@mdh/compile' },
-  { dir: 'packages/mdh-theme', name: '@mdh/theme' },
+  { dir: 'packages/mdh-core', name: '@mdh-kit/core' },
+  { dir: 'packages/mdh-render', name: '@mdh-kit/render' },
+  { dir: 'packages/mdh-compile', name: '@mdh-kit/compile' },
+  { dir: 'packages/mdh-theme', name: '@mdh-kit/theme' },
 ];
 
 const versions = new Map();

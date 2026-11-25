@@ -12,7 +12,7 @@
  * 规则：只有写了 ref 的对象才占号（与 SYNTAX.md 一致）。
  */
 
-import type { AnyNode, BlockNode, RootNode } from '@mdh/core';
+import type { AnyNode, BlockNode, RootNode } from '@mdh-kit/core';
 import {
   buildFootnoteIndex,
   extractFootnoteDefs,

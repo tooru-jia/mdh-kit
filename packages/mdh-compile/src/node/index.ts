@@ -1,11 +1,11 @@
 /**
- * @mdh/compile/node —— Node 宿主
+ * @mdh-kit/compile/node —— Node 宿主
  *
  * 用于 CLI、CI、服务端、构建流程。
  * Mermaid 与 Chart 通过 Playwright 起 Chromium 渲染（需要 `playwright`）。
  *
  * @example
- * import { compileFromSource, fullPlugins } from '@mdh/compile/node';
+ * import { compileFromSource, fullPlugins } from '@mdh-kit/compile/node';
  * const html = await compileFromSource(source);
  */
 
@@ -59,7 +59,7 @@ export async function compileAst(
  *
  * 会按需启动 Playwright 浏览器；结束后默认释放。
  *
- * `options.css` 为 `'style'` 时自动带上默认主题样式（读 `@mdh/theme/raw`）。
+ * `options.css` 为 `'style'` 时自动带上默认主题样式（读 `@mdh-kit/theme/raw`）。
  * 不传则产物是无样式 HTML（与旧行为一致）。
  */
 export async function compileFromSource(

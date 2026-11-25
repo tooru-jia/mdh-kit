@@ -1,11 +1,11 @@
 /**
- * @mdh/compile/browser —— 浏览器宿主
+ * @mdh-kit/compile/browser —— 浏览器宿主
  *
  * 用于网页、Electron 渲染进程、任何已有 DOM 的环境。
  * Mermaid 与 Chart 直接在当前窗口渲染，**不需要 Playwright**。
  *
  * @example
- * import { compileFromSource } from '@mdh/compile/browser';
+ * import { compileFromSource } from '@mdh-kit/compile/browser';
  * document.querySelector('#app').innerHTML = await compileFromSource(source);
  */
 

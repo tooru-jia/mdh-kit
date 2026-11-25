@@ -24,7 +24,7 @@ import katex from 'katex';
 import hljs from 'highlight.js/lib/common';
 import { Chart } from 'chart.js/auto';
 
-import { setKatex, setHljs } from '@mdh/compile/browser';
+import { setKatex, setHljs } from '@mdh-kit/compile/browser';
 
 // katex 的 CJS 默认导出可能是模块对象或函数，两种都兼容
 const k = (katex as any).default ?? katex;

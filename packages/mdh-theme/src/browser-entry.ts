@@ -2,7 +2,7 @@
  * 浏览器端入口：把第二层与第一层的能力打包给页面用
  */
 import { createRenderer } from '../../mdh-render/src/index.ts';
-import { serializeNode, parseNode, parse } from '@mdh/core';
+import { serializeNode, parseNode, parse } from '@mdh-kit/core';
 
 declare global {
   interface Window {

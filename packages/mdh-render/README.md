@@ -28,8 +28,8 @@ mdh 的**第二层**：把 AST 画成页面，含编号计算与增删查改。
 ### 一次性渲染
 
 ```js
-import { parse } from '@mdh/core';
-import { render } from '@mdh/render';
+import { parse } from '@mdh-kit/core';
+import { render } from '@mdh-kit/render';
 
 const html = render(parse(src).ast);
 ```
@@ -37,7 +37,7 @@ const html = render(parse(src).ast);
 ### 持有状态（推荐）
 
 ```js
-import { createRenderer } from '@mdh/render';
+import { createRenderer } from '@mdh-kit/render';
 
 const r = createRenderer(ast, { mode: 'incremental' });
 

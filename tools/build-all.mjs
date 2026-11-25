@@ -146,3 +146,14 @@ writeFileSync(OUT, parts.join('\n'));
 
 const kb = (statSync(OUT).size / 1024).toFixed(0);
 console.log(`✅ ${OUT}  ${kb}KB  一个 script 搞定全部`);
+
+/*
+ * 两个交互 IIFE 也要进 @mdh-kit/theme 的 dist ——
+ * 用户通过 <script src=".../mdh-interact-core.js"> 引，需要有实体文件。
+ */
+import { copyFileSync, mkdirSync } from 'node:fs';
+mkdirSync('packages/mdh-theme/dist', { recursive: true });
+for (const f of ['mdh-interact-core.js', 'mdh-interact.js']) {
+  copyFileSync(`packages/mdh-theme/src/${f}`, `packages/mdh-theme/dist/${f}`);
+}
+console.log('✅ 交互 IIFE 已复制到 mdh-theme/dist');

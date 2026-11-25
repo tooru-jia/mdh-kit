@@ -4,8 +4,8 @@
  * 用 mdh-kit 自己的插件跑，不经过 Lumen。
  * 语法取自 mdh/examples/test-features.mdh：```ts title="文件名"
  */
-import { parse } from '@mdh/core';
-import { render } from '@mdh/render';
+import { parse } from '@mdh-kit/core';
+import { render } from '@mdh-kit/render';
 import { highlightPlugin } from '../packages/mdh-compile/src/node/highlight.ts';
 
 const src = [

@@ -9,7 +9,7 @@
  * 测试时用 full 模式对拍 incremental，保证两者结果一致。
  */
 
-import type { AnyNode, RootNode } from '@mdh/core';
+import type { AnyNode, RootNode } from '@mdh-kit/core';
 import { computeNumbers, type NumberInfo } from './numbering.ts';
 import { renderNode, renderRoot, type RenderOptions } from './html.ts';
 import { findNode, insertNode, moveNode, removeNode, replaceNode, replaceNodeWithMany } from './tree.ts';

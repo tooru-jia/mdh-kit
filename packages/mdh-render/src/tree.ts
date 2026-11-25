@@ -5,7 +5,7 @@
  * 所有操作返回「是否成功」。
  */
 
-import type { AnyNode, RootNode } from '@mdh/core';
+import type { AnyNode, RootNode } from '@mdh-kit/core';
 
 /** 子节点容器：返回节点当前所在的数组 */
 interface Located {

@@ -1,5 +1,5 @@
 {
-  "name": "@mdh/theme",
+  "name": "@mdh-kit/theme",
   "version": "1.0.0",
   "type": "module",
   "description": "mdh 第三层：默认主题 CSS、源码高亮配色与交互层（选中 / 显示 ID / 可选编辑）",
@@ -12,15 +12,29 @@
     "highlight"
   ],
   "exports": {
-    ".": "./src/index.ts",
-    "./interact": "./src/interact.ts",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./interact": {
+      "types": "./dist/interact.d.ts",
+      "import": "./dist/interact.js",
+      "require": "./dist/interact.cjs"
+    },
+    "./interact-core.js": "./dist/mdh-interact-core.js",
+    "./interact.js": "./dist/mdh-interact.js",
     "./css": "./themes/default.css",
     "./default.css": "./themes/default.css",
-    "./raw": "./src/css-raw.ts",
+    "./raw": {
+      "types": "./dist/css-raw.d.ts",
+      "import": "./dist/css-raw.js",
+      "require": "./dist/css-raw.cjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
-    "src",
+    "dist",
     "themes",
     "README.md"
   ],
@@ -28,5 +42,8 @@
     "*.css",
     "./src/mdh-interact-core.js",
     "./src/mdh-interact.js"
-  ]
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts"
 }
