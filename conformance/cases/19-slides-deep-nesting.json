@@ -1,0 +1,15 @@
+{
+  "name": "19-slides-deep-nesting",
+  "note": "覆盖规则 6 —— slides 里页占一段，页内嵌套到第 3 层时压回 O 池（不出现第 4 段）",
+  "source": "@page(slides)\n> 第一层\n>\n> > 第二层\n> >\n> > > 第三层",
+  "ids": [
+    "R",
+    "M1",
+    "M2",
+    "M2-N1",
+    "M2-N1-O1",
+    "M2-N1-O2",
+    "M2-N1-O3",
+    "M2-N1-O4"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "09-column-multi",
+  "note": "覆盖规则 5·补 —— 多栏：分栏 M1，每栏与它平级占 M2、M3、M4；栏内内容各进一层（M2-N1、M3-N1、M4-N1）",
+  "source": "***column(1fr/1fr/1fr)\n甲\n@next-column\n乙\n@next-column\n丙\n***column-end",
+  "ids": [
+    "R",
+    "M1",
+    "M2-N1",
+    "M3-N1",
+    "M4-N1"
+  ]
+}

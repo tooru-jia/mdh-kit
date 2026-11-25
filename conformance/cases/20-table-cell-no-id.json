@@ -1,0 +1,11 @@
+{
+  "name": "20-table-cell-no-id",
+  "note": "覆盖规则 7 —— 表格只有行有 ID，单元格不生成 ID（表头行 + 数据行各占一个）",
+  "source": "***table\nhead: A, B, C\n- 1, 2, 3\n- 4, 5, 6\n***table-end",
+  "ids": [
+    "R",
+    "M1",
+    "M1-N1",
+    "M1-N2"
+  ]
+}

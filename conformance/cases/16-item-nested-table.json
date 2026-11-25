@@ -1,0 +1,13 @@
+{
+  "name": "16-item-nested-table",
+  "note": "覆盖规则 4 —— 列表项下面缩进的 table 是项的子块：项 M2 → 表格 M2-N1 → 行 M2-N1-O1",
+  "source": "***list\n\n- 项一\n\n  ***table\n  head: a\n  - 1\n  ***table-end\n\n- 项二\n\n***list-end",
+  "ids": [
+    "R",
+    "M1",
+    "M2",
+    "M2-N1",
+    "M2-N1-O1",
+    "M3"
+  ]
+}

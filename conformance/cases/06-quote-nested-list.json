@@ -1,0 +1,11 @@
+{
+  "name": "06-quote-nested-list",
+  "note": "覆盖规则 3 —— 引用里的列表：引用 M1 → 列表 M1-N1 → 项 M1-N1-O1",
+  "source": "> - a\n> - b",
+  "ids": [
+    "R",
+    "M1",
+    "M1-N1",
+    "M1-N2"
+  ]
+}

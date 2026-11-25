@@ -1,0 +1,371 @@
+===
+title = 新增语法专项测试（HTML）
+author = toru
+date = 2026-11-18
+===
+
+
+# 新增语法专项测试
+
+本文专门测试六项新增能力：目录、行内公式、图表编号与题注、Mermaid、代码块文件名、表头合并。
+
+-----
+
+## 一、目录 TOC
+
+下面这个 `@toc` 占位符会被展开成全文目录（收录到 H4）：
+
+@toc
+
+### 1.1 目录的层级
+
+#### 1.1.1 H4 应该被收录
+
+这一段下面还有 H5、H6，它们**不应该**出现在目录里。
+
+##### 1.1.1.1 H5 不该进目录
+
+###### H6 也不该进目录
+
+### 1.2 多个目录
+
+同一个文档里再写一个 `@toc`，应该再生成一份：
+
+@toc
+
+-----
+
+## 二、行内数学公式
+
+### 2.1 基础用法
+
+归并排序的时间复杂度是 $O(n \log n)$，比冒泡排序的 $O(n^2)$ 快得多。
+
+质能方程 $E = mc^2$ 说明质量和能量等价。
+
+斐波那契数列的通项公式是 $F_n = \frac{1}{\sqrt{5}}\left(\frac{1+\sqrt{5}}{2}\right)^n$。
+
+### 2.2 与其他行内格式混排
+
+下面这句话同时包含 **加粗**、/斜体/、`代码` 和公式 $\sum_{i=1}^{n} i$：
+
+> 引号里的公式 $a^2 + b^2 = c^2$ 也应该正常渲染。
+
+### 2.3 金额与公式的冲突
+
+价格是 `$100`，另一件是 `$200`（用反引号包住，原样输出）。
+
+如果不加反引号：价格是 $100，另一件是 $200（会被当成公式）。
+
+### 2.4 单行公式
+
+单个 `$` 没有配对时，按普通文本呈现：$ 这是一个孤立的美元符号。
+
+### 2.5 块级公式
+
+***math ref="emc" caption="质能方程"
+E = mc^2
+***math-end
+
+***math ref="sum" caption="等差数列求和"
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+***math-end
+
+无名公式不占编号：
+
+***math
+a^2 + b^2 = c^2
+***math-end
+
+再一个命名公式，验证编号连续（应为式(3)）：
+
+***math ref="euler" caption="欧拉公式"
+e^{i\pi} + 1 = 0
+***math-end
+
+-----
+
+## 三、图表：name 与 caption
+
+### 3.1 带编号和题注的柱状图
+
+***chart(bar) ref="sales" caption="2024 年各产品逐月销量对比"
+head: 月份, 产品A, 产品B, 产品C
+- 一月, 100, 80, 60
+- 二月, 150, 90, 110
+- 三月, 120, 140, 90
+- 四月, 180, 120, 150
+***chart-end
+
+正文引用：见 @sales 。
+
+### 3.2 带题注的折线图
+
+***chart(line) ref="trend" caption="线上与线下渠道趋势"
+head: 月份, 线上, 线下
+- 一月, 100, 60
+- 二月, 150, 70
+- 三月, 120, 85
+- 四月, 180, 90
+- 五月, 160, 110
+***chart-end
+
+### 3.3 只有 name、没有 caption
+
+***chart(pie) ref="share"
+head: 产品, 销量
+- 产品A, 100
+- 产品B, 80
+- 产品C, 60
+***chart-end
+
+### 3.4 只有 caption、没有 name（不编号）
+
+***chart(pie) caption="无编号的饼图"
+head: 产品, 销量
+- 产品D, 45
+- 产品E, 30
+***chart-end
+
+### 3.5 都没有
+
+***chart(bar)
+head: 季度, 数量
+- Q1, 20
+- Q2, 35
+***chart-end
+
+-----
+
+## 四、Mermaid
+
+### 4.1 流程图（带编号题注）
+
+***mermaid ref="login" caption="用户登录流程"
+graph TD
+    A[开始] --> B{已登录?}
+    B -->|是| C[进入首页]
+    B -->|否| D[显示登录页]
+    D --> E[提交账号密码]
+    E --> F{验证通过?}
+    F -->|是| C
+    F -->|否| G[提示错误]
+    G --> D
+***mermaid-end
+
+正文引用：见 @login 。
+
+### 4.2 时序图
+
+***mermaid ref="api" caption="接口调用时序"
+sequenceDiagram
+    participant U as 用户
+    participant C as 客户端
+    participant S as 服务端
+    U->>C: 点击提交
+    C->>S: POST /api/submit
+    S-->>C: 200 OK
+    C-->>U: 显示成功
+***mermaid-end
+
+### 4.3 流程图（无题注）
+
+***mermaid ref="flow2"
+graph LR
+    X[输入] --> Y[处理]
+    Y --> Z[输出]
+***mermaid-end
+
+### 4.4 类图
+
+***mermaid ref="class" caption="解析器类结构"
+classDiagram
+    class Parser {
+        +parse(src) AST
+        -build(lines) AST
+    }
+    class Renderer {
+        +render(ast) HTML
+    }
+    Parser --> Renderer : 输出 AST
+***mermaid-end
+
+### 4.5 状态图
+
+***mermaid ref="state" caption="文档状态流转"
+stateDiagram-v2
+    [*] --> 草稿
+    草稿 --> 审核中 : 提交
+    审核中 --> 已发布 : 通过
+    审核中 --> 草稿 : 驳回
+    已发布 --> [*]
+***mermaid-end
+
+### 4.6 甘特图
+
+***mermaid ref="gantt" caption="项目排期"
+gantt
+    title 项目排期
+    dateFormat YYYY-MM-DD
+    section 设计
+    需求分析 :a1, 2024-01-01, 10d
+    原型设计 :a2, after a1, 15d
+    section 开发
+    前端开发 :b1, after a2, 20d
+    后端开发 :b2, after a2, 25d
+***mermaid-end
+
+### 4.7 无 name 的 Mermaid（不占编号）
+
+***mermaid
+graph TD
+    P[无编号测试] --> Q[结束]
+***mermaid-end
+
+-----
+
+## 五、代码块文件名
+
+### 5.1 带文件名的代码块
+
+```ts title="src/parser.ts"
+export function parse(source: string) {
+  const lines = classifyLines(source);
+  return build(lines);
+}
+```
+
+### 5.2 不带文件名的代码块
+
+```ts
+const ast = parse(source);
+```
+
+### 5.3 其他语言
+
+```python title="train.py"
+def train(model, data):
+    for epoch in range(100):
+        loss = model.step(data)
+        print(f"epoch {epoch}: {loss}")
+```
+
+```bash title="deploy.sh"
+#!/bin/bash
+npm run build
+npm run deploy
+```
+
+```json title="package.json"
+{
+  "name": "mdh",
+  "version": "0.1.0"
+}
+```
+
+### 5.4 无法识别的语言
+
+```unknownlang title="file.xyz"
+这段内容按纯文本呈现，不报错、不丢弃。
+```
+
+-----
+
+## 六、表头横向合并
+
+### 6.1 两列合并
+
+***table ref="quarterly" caption="2024 年各部门季度数据"
+head: 部门, 上半年, 上半年, 下半年, 下半年
+head: 季度, Q1, Q2, Q3, Q4
+- 销售部, 120, 150, 140, 180
+- 技术部, 90, 110, 105, 130
+***table-end
+
+### 6.2 三列合并
+
+***table caption="连续三列合并"
+head: 分组, 全年, 全年, 全年
+- 甲组, 100, 200, 300
+***table-end
+
+### 6.3 不相邻不合并
+
+***table caption="不相邻的相同文字不合并"
+head: A, B, A
+- 1, 2, 3
+***table-end
+
+-----
+
+## 七、组合场景
+
+### 7.1 表格 + 公式 + 图表混排
+
+***table ref="metrics" caption="性能指标"
+head: 指标, 数值, 单位
+- 解析耗时, 12, ms
+- 渲染耗时, 28, ms
+- 内存占用, 18, MB
+***table-end
+
+解析复杂度 $T(n) = O(n)$，因为嵌套深度有上限。
+
+***chart(bar) ref="perf" caption="性能对比"
+head: 阶段, 耗时
+- 解析, 12
+- 渲染, 28
+***chart-end
+
+### 7.2 Mermaid + 代码块
+
+***mermaid ref="pipeline" caption="解析管线"
+graph LR
+    A[源码] --> B[行分类]
+    B --> C[构建 AST]
+    C --> D[渲染 HTML]
+***mermaid-end
+
+```ts title="pipeline.ts"
+const ast = build(classify(source));
+const html = render(ast);
+```
+
+### 7.3 分栏内混排
+
+***column(1fr/1fr) ref="对比"
+**左侧：公式**
+
+$E = mc^2$
+
+**右侧：代码**
+
+`const c = 3e8`
+@next-column
+**左侧：图表**
+
+***chart(bar) caption="小图表"
+head: 项目, 值
+- A, 10
+- B, 20
+***chart-end
+@next-column
+（本节仅两栏）
+***column-end
+
+-----
+
+## 八、边界情况
+
+### 8.1 空目录位置
+
+@toc
+
+### 8.2 公式内的特殊字符
+
+$\alpha + \beta = \gamma$，$\int_0^1 x^2 dx = \frac{1}{3}$，$\lim_{x \to \infty} \frac{1}{x} = 0$。
+
+### 8.3 同一个名字被多处引用
+
+见 @sales 与 @trend ，再见 @login 与 @api 。
+

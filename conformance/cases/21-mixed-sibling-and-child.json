@@ -1,0 +1,14 @@
+{
+  "name": "21-mixed-sibling-and-child",
+  "note": "覆盖规则 4 —— 同一个列表里既有顶格块（与项平级）又有缩进块（项的子块），两者编号各归各位",
+  "source": "***list\n- 项一\n\n***table\nhead: a\n- 1\n***table-end\n\n- 项二\n\n  ***math\nE=mc^2\n  ***math-end\n\n***list-end",
+  "ids": [
+    "R",
+    "M1",
+    "M2",
+    "M3",
+    "M3-N1",
+    "M4",
+    "M4-N1"
+  ]
+}

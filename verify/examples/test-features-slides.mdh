@@ -1,0 +1,323 @@
+===
+title = 新增语法专项测试（Slides）
+author = toru
+date = 2026-11-18
+===
+
+@page(slides)
+
+# 新增语法专项
+
+## 目录 · 公式 · 图表 · Mermaid · 代码块
+
+v0.1 · 2026
+
+@next-slide
+## 目录
+
+@toc
+
+@next-slide
+## 行内公式
+
+### 基础
+
+归并排序是 $O(n \log n)$，冒泡是 $O(n^2)$。
+
+质能方程 $E = mc^2$。
+
+斐波那契通项 $\frac{n(n+1)}{2}$。
+
+### 与行内格式混排
+
+**加粗里有公式 $\sum_{i=1}^{n} i$**，/斜体里有 $\pi$ /，`代码` 里有 $$ 符号。
+
+### 金额冲突
+
+价格是 `$100`（反引号，原样输出）。
+
+@next-slide
+## 块级公式
+
+***math ref="emc" caption="质能方程"
+E = mc^2
+***math-end
+
+***math ref="sum" caption="等差数列求和"
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+***math-end
+
+无名公式不占号：
+
+***math
+a^2 + b^2 = c^2
+***math-end
+
+@next-slide
+## 图表：name + caption
+
+***chart(bar) ref="sales" caption="2024 年各产品逐月销量"
+head: 月份, 产品A, 产品B
+- 一月, 100, 80
+- 二月, 150, 90
+- 三月, 120, 140
+***chart-end
+
+见 @sales 。
+
+@next-slide
+## 图表：只有 caption
+
+***chart(line) caption="无编号的趋势图"
+head: 月份, 线上, 线下
+- 一月, 100, 60
+- 二月, 150, 70
+- 三月, 120, 85
+- 四月, 180, 90
+***chart-end
+
+@next-slide
+## 图表：饼图带题注
+
+***column(1fr/1fr) ref="两图并列"
+***chart(pie) ref="share" caption="市场份额"
+head: 产品, 销量
+- 产品A, 100
+- 产品B, 80
+- 产品C, 60
+***chart-end
+@next-column
+***chart(pie) caption="另一组占比"
+head: 产品, 销量
+- 产品D, 45
+- 产品E, 30
+***chart-end
+***column-end
+
+@next-slide
+## Mermaid 流程图
+
+***mermaid ref="login" caption="用户登录流程"
+graph TD
+    A[开始] --> B{已登录?}
+    B -->|是| C[进入首页]
+    B -->|否| D[登录页]
+    D --> E[提交凭证]
+    E --> F{通过?}
+    F -->|是| C
+    F -->|否| G[提示错误]
+***mermaid-end
+
+见 @login 。
+
+@next-slide
+## Mermaid 时序图
+
+***mermaid ref="api" caption="接口调用时序"
+sequenceDiagram
+    participant U as 用户
+    participant C as 客户端
+    participant S as 服务端
+    U->>C: 点击提交
+    C->>S: POST /api/submit
+    S-->>C: 200 OK
+    C-->>U: 显示成功
+***mermaid-end
+
+@next-slide
+## Mermaid 类图
+
+***mermaid ref="class" caption="解析器类结构"
+classDiagram
+    class Parser {
+        +parse(src) AST
+        -build(lines) AST
+    }
+    class Renderer {
+        +render(ast) HTML
+    }
+    Parser --> Renderer : 输出 AST
+***mermaid-end
+
+@next-slide
+## Mermaid 状态图
+
+***mermaid ref="state" caption="文档状态流转"
+stateDiagram-v2
+    [*] --> 草稿
+    草稿 --> 审核中 : 提交
+    审核中 --> 已发布 : 通过
+    审核中 --> 草稿 : 驳回
+    已发布 --> [*]
+***mermaid-end
+
+@next-slide
+## Mermaid 甘特图
+
+***mermaid ref="gantt" caption="项目排期"
+gantt
+    title 项目排期
+    dateFormat YYYY-MM-DD
+    section 设计
+    需求分析 :a1, 2024-01-01, 10d
+    原型设计 :a2, after a1, 15d
+    section 开发
+    前端开发 :b1, after a2, 20d
+***mermaid-end
+
+@next-slide
+## Mermaid 无题注
+
+***mermaid ref="flow2"
+graph LR
+    X[输入] --> Y[处理]
+    Y --> Z[输出]
+***mermaid-end
+
+@next-slide
+## Mermaid 无 name（不占编号）
+
+***mermaid
+graph TD
+    P[无编号] --> Q[结束]
+***mermaid-end
+
+@next-slide
+## 代码块：带文件名
+
+```ts title="src/parser.ts"
+export function parse(source: string) {
+  const lines = classifyLines(source);
+  return build(lines);
+}
+```
+
+@next-slide
+## 代码块：不带文件名
+
+```ts
+const ast = parse(source);
+const html = render(ast);
+```
+
+@next-slide
+## 代码块：其他语言
+
+***column(1fr/1fr) ref="多语言"
+```python title="train.py"
+def train(model, data):
+    for epoch in range(100):
+        loss = model.step(data)
+        print(loss)
+```
+@next-column
+```bash title="deploy.sh"
+#!/bin/bash
+npm run build
+npm run deploy
+```
+***column-end
+
+@next-slide
+## 代码块：无法识别的语言
+
+```unknownlang title="file.xyz"
+这段内容按纯文本呈现，不报错、不丢弃。
+```
+
+@next-slide
+## 表头横向合并
+
+***table ref="quarterly" caption="2024 年各部门季度数据"
+head: 部门, 上半年, 上半年, 下半年, 下半年
+head: 季度, Q1, Q2, Q3, Q4
+- 销售部, 120, 150, 140, 180
+- 技术部, 90, 110, 105, 130
+***table-end
+
+@next-slide
+## 表头：三列合并
+
+***table caption="连续三列合并"
+head: 分组, 全年, 全年, 全年
+- 甲组, 100, 200, 300
+- 乙组, 120, 180, 260
+***table-end
+
+@next-slide
+## 表头：不相邻不合并
+
+***table caption="A 与 A 不相邻"
+head: A, B, A
+- 1, 2, 3
+- 4, 5, 6
+***table-end
+
+@next-slide
+## 组合：管线图 + 代码
+
+***mermaid ref="pipeline" caption="解析管线"
+graph LR
+    A[源码] --> B[行分类]
+    B --> C[构建 AST]
+    C --> D[渲染 HTML]
+***mermaid-end
+
+```ts title="pipeline.ts"
+const ast = build(classify(source));
+const html = render(ast);
+```
+
+@next-slide
+## 组合：表格 + 公式 + 图表
+
+***table ref="metrics" caption="性能指标"
+head: 指标, 数值, 单位
+- 解析耗时, 12, ms
+- 渲染耗时, 28, ms
+***table-end
+
+复杂度 $T(n) = O(n)$。
+
+***chart(bar) ref="perf" caption="性能对比"
+head: 阶段, 耗时
+- 解析, 12
+- 渲染, 28
+***chart-end
+
+@next-slide
+## 分栏内的公式与代码
+
+***column(1fr/1fr) ref="对比"
+**公式**
+
+$E = mc^2$
+
+$\int_0^1 x^2 dx = \frac{1}{3}$
+@next-column
+**代码**
+
+`const c = 3e8`
+
+`const h = 6.63e-34`
+***column-end
+
+@next-slide
+## 公式的特殊字符
+
+$\alpha + \beta = \gamma$
+
+$\lim_{x \to \infty} \frac{1}{x} = 0$
+
+$\sqrt{a^2 + b^2}$
+
+@next-slide
+## 多处引用
+
+见 @sales 与 @login ，再见 @api 与 @emc 。
+
+@next-slide
+# 谢谢
+
+## 六项新能力已全部验证
+

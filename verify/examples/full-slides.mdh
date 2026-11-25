@@ -1,0 +1,472 @@
+===
+title = mdh 全场景验收（Slides）
+author = toru
+date = 2026-11-21
+version = 1.0
+===
+
+@page(slides)
+
+# mdh 全场景验收 · Slides
+
+覆盖 slides 形态下的全部语法：切页、目录、行内格式、块级元素、分栏、图表。
+
+@toc
+
+@next-slide
+
+## 一、行内格式全览
+
+**加粗**、/斜体/、__下划线__、--删除线--、`行内代码`、$E = mc^2$。
+
+两层嵌套：**__粗+下划线__**、**/粗+斜体/**、__--下划+删除--__。
+
+行内混排：**粗**然后/斜/然后__划__然后--删--，中间夹普通文字与 @tag(标签)。
+
+@next-slide
+
+## 二、引用与标签
+
+对象引用：见表 @员工表 与图 @销量图 。
+
+标题引用：见 @一、行内格式全览 一节。
+
+标签：@tag(英语) @tag(学习) @tag(mdh) @tag(验收)
+
+裸引用与标签混排：@员工表 是对象，@tag(标签) 不跳转，@二、引用与标签 是标题。
+
+@next-slide
+
+## 三、脚注与链接
+
+这个结论有出处 @foot(来源一)，另一处也有 @foot(来源二)。
+
+再次引用 @foot(来源一) 应复用编号。
+
+未定义的 @foot(未出现) 应显示上标但不跳转。
+
+链接：@link(官网, "https://example.com") 与 @link(带括号, "https://x.com/a(b)")。
+
+@link(维基, "https://en.wikipedia.org/wiki/Washington,_D.C.")
+
+@next-slide
+
+## 四、列表
+
+- 无序项一
+- 无序项二
+	- 嵌套第二层
+		- 嵌套第三层
+- 无序项三
+
+1. 有序项一
+2. 有序项二
+	- 有序里嵌无序
+3. 有序项三
+
+- [ ] 未完成
+- [x] 已完成
+- [ ] 另一个
+
+@next-slide
+
+## 五、列表块式
+
+***list
+### 计划
+
+1. 完成语法定义
+	- 写清边界
+	- 确认符号
+2. 完成实现
+	- 解析器
+	- 渲染器
+3. 完成验收
+***list-end
+
+@next-slide
+
+## 六、引用块
+
+> 这是一段引用文字。
+> 第二行仍属同一引用。
+
+> 外层引用
+>> 嵌套的二级引用
+>> 第二行
+
+> 引用里有 **加粗** 和 /斜体/ 和 `代码`，还有 $a^2$ 与 @tag(标签)。
+
+@next-slide
+
+## 七、表格
+
+***table ref="员工表" caption="2024 年薪资表"
+head: 姓名, 薪资, 学历
+- 张三, 20k, 本科
+- 李四, 18k, 硕士
+- 王五, 25k, 博士
+***table-end
+
+见表 @员工表 。
+
+@next-slide
+
+## 八、表格的各种形态
+
+***table ref="合并表" caption="表头横向合并"
+head: 部门, 上半年, 上半年, 下半年, 下半年
+- 技术部, 100, 120, 130, 140
+***table-end
+
+***table caption="含逗号的单元格"
+head: 姓名, 标签
+- 张三, `本科, 硕士`
+***table-end
+
+***table caption="只有表头"
+head: 列一, 列二
+***table-end
+
+@next-slide
+
+## 九、代码块
+
+```ts title="src/parser.ts"
+export function parse(source: string) {
+  return { ast: null, diagnostics: [] };
+}
+```
+
+```python
+def hello(name):
+    return f"你好，{name}"
+```
+
+```
+纯文本，不解析：
+**不是加粗**
+# 不是标题
+```
+
+@next-slide
+
+## 十、行内公式的四种判定
+
+**是公式：**
+$O(n \log n)$、$E = mc^2$、$\frac{a}{b}$、$\sum_{i=1}^{n} i$、$x^{2} + y_{i}$
+
+**不是公式（按文本）：**
+$100 和 $200 不是公式
+
+$100$ 不是公式
+
+$速度 = 距离/时间$ 不是公式
+
+$x$100 不是公式
+
+@next-slide
+
+## 十一、块级公式
+
+***math ref="质能方程" caption="质能方程"
+E = mc^2
+***math-end
+
+***math ref="多行推导" caption="分步推导"
+\begin{aligned}
+(a+b)^2 &= (a+b)(a+b) \\
+&= a^2 + 2ab + b^2
+\end{aligned}
+***math-end
+
+见 @质能方程 与 @多行推导 。
+
+@next-slide
+
+## 十二、图表
+
+***chart(bar) ref="销量图" caption="各产品逐月销量"
+head: 月份, 产品A, 产品B
+- 一月, 100, 80
+- 二月, 150, 90
+- 三月, 120, 110
+***chart-end
+
+见图 @销量图 。
+
+@next-slide
+
+## 十三、图表类型
+
+***chart(line) ref="趋势图" caption="季度趋势"
+head: 季度, 营收, 成本
+- Q1, 200, 150
+- Q2, 260, 170
+- Q3, 300, 190
+***chart-end
+
+***chart(pie) ref="份额图" caption="市场份额"
+head: 品牌, 份额
+- 甲品牌, 45
+- 乙品牌, 30
+- 丙品牌, 25
+***chart-end
+
+@next-slide
+
+## 十四、Mermaid 流程图与时序图
+
+***mermaid ref="登录流程" caption="用户登录流程"
+graph TD
+    A[开始] --> B{已登录?}
+    B -->|是| C[进入首页]
+    B -->|否| D[显示登录页]
+***mermaid-end
+
+***mermaid ref="接口时序" caption="接口调用时序"
+sequenceDiagram
+    participant U as 用户
+    participant S as 服务端
+    U->>S: 请求
+    S-->>U: 响应
+***mermaid-end
+
+@next-slide
+
+## 十五、Mermaid 其他图形
+
+***mermaid ref="类结构" caption="核心类图"
+classDiagram
+    class Parser {
+        +parse(source)
+    }
+    class Renderer {
+        +render(ast)
+    }
+    Parser --> Renderer
+***mermaid-end
+
+***mermaid caption="状态图"
+stateDiagram-v2
+    [*] --> 待付款
+    待付款 --> 已完成: 支付
+***mermaid-end
+
+@next-slide
+
+## 十六、Mermaid 甘特图与无题注
+
+***mermaid ref="项目排期" caption="开发甘特图"
+gantt
+    title 项目排期
+    dateFormat YYYY-MM-DD
+    section 设计
+    需求梳理 :a1, 2026-01-01, 10d
+    原型设计 :a2, after a1, 15d
+    section 开发
+    前端开发 :b1, after a2, 20d
+***mermaid-end
+
+***mermaid
+graph LR
+    A --> B --> C
+***mermaid-end
+
+@next-slide
+
+## 十七、分栏（两栏）
+
+***column(1fr/1fr) ref="两栏对比"
+**左栏**
+
+左栏正文，含 $x^2$ 公式与 @tag(标签)。
+
+- 左栏列表一
+- 左栏列表二
+
+@next-column
+**右栏**
+
+右栏正文，含 `代码` 与 --删除--。
+
+> 右栏的引用
+
+***table caption="栏内表"
+head: 甲, 乙
+- 1, 2
+***table-end
+***column-end
+
+@next-slide
+
+## 十八、分栏（三栏与非等宽）
+
+***column(1fr/1fr/1fr) ref="三栏"
+第一栏
+
+内容一
+
+@next-column
+第二栏
+
+内容二
+
+@next-column
+第三栏
+
+内容三
+***column-end
+
+***column(1fr/2fr) ref="非等宽"
+窄栏 1fr
+
+@next-column
+宽栏 2fr，这里内容更长，用来验证宽度比例是否生效。
+***column-end
+
+@next-slide
+
+## 十九、分栏内放图表与公式
+
+***column(1fr/1fr) ref="栏内混合"
+***chart(bar) caption="左栏柱状图"
+head: A, B
+- 1, 2
+***chart-end
+
+@next-column
+***math caption="右栏公式"
+E = mc^2
+***math-end
+***column-end
+
+***column(1fr/1fr)
+***mermaid caption="左栏流程图"
+graph LR
+    A --> B
+***mermaid-end
+
+@next-column
+***table caption="右栏表格"
+head: 丙, 丁
+- 3, 4
+***table-end
+***column-end
+
+@next-slide
+
+## 二十、HTML 直写
+
+<div style="background:#f5f5f5;padding:12px;border-radius:4px">灰底圆角容器</div>
+
+这是 <mark>高亮</mark> 文字，按 <kbd>Cmd</kbd> 保存。
+
+下标 H<sub>2</sub>O，上标 E=mc<sup>2</sup>。
+
+<details>
+<summary>点我展开</summary>
+
+折叠内容，里面可以有 **加粗**。
+
+</details>
+
+@next-slide
+
+## 二十一、HTML 的边界
+
+白名单外标签显示为文字：
+
+<blink>不在白名单</blink>
+
+危险属性被剥离（应看到无 onclick）：
+
+<div onclick="alert(1)">这段不该弹窗</div>
+
+定位属性被剥离、颜色保留：
+
+<div style="position:absolute;top:0;color:red">红字但不定绝对定位</div>
+
+@next-slide
+
+## 二十二、注释与分割线
+
+// 这句注释不会显示
+
+// 第二行注释也不会显示
+
+正文里的 // 不是注释。
+
+---
+
+上面是分割线。
+
+独立一行的 `***` 已废弃，不再是分割线（应该被忽略，不产生 `<hr>`）：
+
+***
+
+@next-slide
+
+## 二十三、组合场景
+
+***table ref="数据源" caption="原始数据"
+head: 月份, 销量
+- 一月, 100
+- 二月, 150
+***table-end
+
+由 @数据源 可得：
+
+***math ref="增长率" caption="增长率"
+\text{增长率} = \frac{本期 - 上期}{上期} \times 100\%
+***math-end
+
+***chart(line) ref="可视化" caption="趋势"
+head: 月份, 销量
+- 一月, 100
+- 二月, 150
+***chart-end
+
+三个对象：@数据源 、@增长率 、@可视化 。
+
+@next-slide
+
+## 二十四、全部行内语法串在一起
+
+这一段把全部行内语法串起来：**加粗**、/斜体/、__下划线__、--删除线--、`行内代码`、$E=mc^2$、@tag(标签)、@员工表、@foot(来源一)、@link(官网, "https://example.com")。
+
+这些元素应当在同一段里各自正确渲染，互不干扰。
+
+@next-slide
+
+## 二十五、边界与收尾
+
+### 长行换行
+
+这是一段很长的文字，验证自动换行。aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa。中文也会换行，中文也会换行，中文也会换行，中文也会换行。
+
+### 特殊字符
+
+箭头 → ← ↑ ↓，数学 ≤ ≥ ≠ ≈ ∞，货币 ¥ $ €，引号 "" '' 「」。
+
+### 连续块
+
+***table ref="连续一" caption="第一块"
+head: A
+- 1
+***table-end
+
+***table ref="连续二" caption="第二块"
+head: B
+- 2
+***table-end
+
+@next-slide
+
+# 验收完成
+
+本文档覆盖：切页、目录、行内格式（4 种 + 嵌套）、行内代码、行内公式（4 种判定）、块级公式、对象引用、标题引用、标签、脚注（单次/复用/未定义）、链接（含特殊字符）、列表（无序/有序/任务/嵌套/块式）、引用块（含二级）、代码块（语言/文件名/未知）、表格（编号/题注/合并/空表）、分栏（2栏/3栏/非等宽/栏内各类）、图表（bar/line/pie）、Mermaid（流程图/时序/类图/状态/甘特）、HTML 直写（白名单/黑名单/属性剥离）、注释、分割线、组合场景、边界情况。
+
+@foot(来源一): mdh 语法规范 v1.0。
+
+@foot(来源二): mdh-kit 实现文档。

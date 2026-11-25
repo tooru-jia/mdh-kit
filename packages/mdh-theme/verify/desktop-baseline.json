@@ -1,0 +1,482 @@
+{
+  "headingMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "headingText": {
+    "cls": "cm-mdh-heading",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "divider": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "frontmatterMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "commentMark": {
+    "cls": "cm-mdh-comment",
+    "color": "#8a949e",
+    "bold": false,
+    "italic": true,
+    "bed": false,
+    "underline": false
+  },
+  "commentText": {
+    "cls": "cm-mdh-comment",
+    "color": "#8a949e",
+    "bold": false,
+    "italic": true,
+    "bed": false,
+    "underline": false
+  },
+  "metaKey": {
+    "cls": "cm-mdh-attr",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "metaAssign": {
+    "cls": "cm-mdh-operator",
+    "color": "#8b6f47",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "metaValue": {
+    "cls": "cm-mdh-string",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "blockMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "blockName": {
+    "cls": "cm-mdh-keyword",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "blockEnd": {
+    "cls": "cm-mdh-keyword",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "blockParams": {
+    "cls": "cm-mdh-params",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "attrName": {
+    "cls": "cm-mdh-attr",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "attrAssign": {
+    "cls": "cm-mdh-operator",
+    "color": "#8b6f47",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "attrValue": {
+    "cls": "cm-mdh-string",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "directiveName": {
+    "cls": "cm-mdh-keyword",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "directiveValue": {
+    "cls": "cm-mdh-params",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "docTitle": {
+    "cls": "cm-mdh-string",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "directiveTitleMeta": {
+    "cls": "cm-mdh-keyword",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "tagFunction": {
+    "cls": "cm-mdh-at",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "footnoteFunction": {
+    "cls": "cm-mdh-at",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "linkFunction": {
+    "cls": "cm-mdh-at",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "atParen": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "atSeparator": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "tagLabel": {
+    "cls": "cm-mdh-ref",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "footnoteLabel": {
+    "cls": "cm-mdh-ref",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "linkLabel": {
+    "cls": "cm-mdh-ref",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "linkUrl": {
+    "cls": "cm-mdh-link",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": true
+  },
+  "referenceName": {
+    "cls": "cm-mdh-at",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "bold": {
+    "cls": "cm-mdh-strong",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "boldMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "italic": {
+    "cls": "cm-mdh-emphasis",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "italicMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "underline": {
+    "cls": "cm-mdh-underline",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "underlineMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "strike": {
+    "cls": "cm-mdh-strike",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "strikeMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "inlineCode": {
+    "cls": "cm-mdh-inline-code",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": true,
+    "underline": false
+  },
+  "inlineCodeMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "inlineMath": {
+    "cls": "cm-mdh-math",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": true,
+    "underline": false
+  },
+  "inlineMathMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "listMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "listNumber": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "listText": {
+    "cls": "cm-mdh-content",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "listNumberText": {
+    "cls": "cm-mdh-content",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "taskMark": {
+    "cls": "cm-mdh-task",
+    "color": "#c8402f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "taskText": {
+    "cls": "cm-mdh-content",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "quoteMark": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "quoteText": {
+    "cls": "cm-mdh-quote",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "fenceMark": {
+    "cls": "cm-mdh-fence",
+    "color": "#c8402f",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "fenceLang": {
+    "cls": "cm-mdh-fence-lang",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "fenceText": {
+    "cls": "cm-mdh-block-text",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "blockText": {
+    "cls": "cm-mdh-block-text",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "tableHeadMark": {
+    "cls": "cm-mdh-attr",
+    "color": "#2f6b4f",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "tableHeadSeparator": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "tableHeaderText": {
+    "cls": "cm-mdh-content",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "tableCellText": {
+    "cls": "cm-mdh-content",
+    "color": "#14161a",
+    "bold": false,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "cellSeparator": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  },
+  "htmlTag": {
+    "cls": "cm-mdh-punct",
+    "color": "#8b6f47",
+    "bold": true,
+    "italic": false,
+    "bed": false,
+    "underline": false
+  }
+}

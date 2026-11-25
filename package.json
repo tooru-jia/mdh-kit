@@ -1,0 +1,126 @@
+{
+  "name": "mdh-kit",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "mdh 文档的解析器与阅读器内核：解析 .mdh，渲染成排好版的页面。解析、渲染、主题、交互一体",
+  "author": "Toru <summerrush60@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tooru-jia/mdh-kit.git"
+  },
+  "homepage": "https://github.com/tooru-jia/mdh-kit#readme",
+  "bugs": {
+    "url": "https://github.com/tooru-jia/mdh-kit/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "keywords": [
+    "mdh",
+    "markdown",
+    "document",
+    "renderer",
+    "reader"
+  ],
+  "workspaces": [
+    "packages/*"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./full": {
+      "types": "./dist/full.d.ts",
+      "import": "./dist/full.js"
+    },
+    "./interact": {
+      "types": "./dist/interact.d.ts",
+      "import": "./dist/interact.js"
+    },
+    "./default.css": "./packages/mdh-theme/themes/default.css",
+    "./raw": "./dist/css-raw.js",
+    "./package.json": "./package.json",
+    "./mount": {
+      "types": "./dist/mount-entry.d.ts",
+      "import": "./dist/mount-entry.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "docs",
+    "schema",
+    "conformance",
+    "packages/mdh-theme/themes",
+    "packages/mdh-theme/src/css-raw.ts",
+    "README.md",
+    "NAMING.md",
+    "VERIFICATION.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test 'packages/*/verify/**/*.test.ts'",
+    "typecheck": "tsc --noEmit",
+    "build": "tsup && npm run build:browser && npm run build:iife && npm run build:all",
+    "build:browser": "node tools/build-browser.mjs",
+    "build:iife": "node tools/build-iife.mjs",
+    "verify:iife": "node tools/verify-iife.mjs && node tools/verify-iife-cdn.mjs",
+    "sizes": "node tools/check-sizes.mjs",
+    "verify:package": "node tools/verify-package.mjs",
+    "verify:css-sync": "node tools/verify-css-sync.mjs",
+    "verify:css-classes": "node tools/verify-css-classes.mjs",
+    "conformance": "node conformance/run.mjs",
+    "prepublishOnly": "npm run build && npm run typecheck && npm run conformance && npm run verify:package-links",
+    "check:unknown": "node --experimental-strip-types --no-warnings tools/check-unknown-syntax.mjs",
+    "bench": "node --experimental-strip-types --no-warnings tools/bench-longdoc.mjs",
+    "verify:syntax-doc": "node --experimental-strip-types --no-warnings tools/verify-syntax-doc.mjs",
+    "build:all": "node tools/build-all.mjs",
+    "verify:id-doc": "node --experimental-strip-types --no-warnings tools/verify-id-doc.mjs",
+    "verify:coverage": "node --experimental-strip-types --no-warnings tools/verify-coverage.mjs",
+    "verify:package-links": "node tools/verify-package-links.mjs"
+  },
+  "dependencies": {
+    "@mdh/compile": "1.0.0",
+    "@mdh/core": "1.0.0",
+    "@mdh/render": "1.0.0",
+    "@mdh/theme": "1.0.0"
+  },
+  "peerDependencies": {
+    "chart.js": "^4.0.0",
+    "highlight.js": "^11.0.0",
+    "katex": "^0.16.0 || ^0.19.0",
+    "mermaid": "^11.0.0 || ^12.0.0",
+    "playwright": "^1.40.0"
+  },
+  "peerDependenciesMeta": {
+    "playwright": {
+      "optional": true
+    },
+    "highlight.js": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "chart.js": "^4.6.1",
+    "chartjs-to-image": "^1.2.2",
+    "esbuild": "^0.28.2",
+    "highlight.js": "^11.12.0",
+    "jsdom": "^31.0.1",
+    "katex": "^0.19.1",
+    "mermaid": "^12.3.0",
+    "playwright": "^1.65.1",
+    "tsup": "^9.0.0",
+    "typescript": "^5.7.2",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
+  }
+}

@@ -1,0 +1,1867 @@
+/* ==========================================================================
+   mdh 默认主题 · 亮色
+   --------------------------------------------------------------------------
+   设计方向：Swiss Modern
+   - 纯白纸面、纯黑文字，只有一种彩色
+   - 层次靠字号与字重，不靠色阶堆叠
+   - 无阴影、无渐变、无圆角滥用
+   - 强调色（朱红）只出现在功能性标记上：编号、链接、勾选、选中态
+   ========================================================================== */
+
+/* ---------- 变量：第三层的全部可调项 ---------- */
+:root {
+  /* 文字 */
+  --mdh-fg: #14161a;
+  --mdh-fg-muted: #55606b;
+  --mdh-fg-subtle: #78828a;
+
+  /*
+   * 细化文字色（变量拆分，2026-11-22）
+   *
+   * 原来 `--mdh-fg-muted` 被 15 处共用，`--mdh-fg-subtle` 被 8 处共用，
+   * 改一个色会让题注、引用、补充段、列表符号一起变。
+   * 下面按语义拆出独立项，默认值仍跟随原变量（`var(--mdh-fg-muted)`），
+   * 所以**不改这些新变量时，视觉与拆分前完全一致**。
+   */
+  --mdh-fg-caption: var(--mdh-fg-muted);   /* 题注（表格 / 图 / 式） */
+  --mdh-fg-quote: var(--mdh-fg-muted);     /* 引用块正文 */
+  --mdh-fg-note: var(--mdh-fg-muted);      /* 脚注区 */
+  --mdh-fg-toc: var(--mdh-fg-muted);       /* 目录项 */
+  --mdh-fg-list-para: var(--mdh-fg-muted); /* 列表项补充段 */
+  --mdh-fg-marker: var(--mdh-fg-subtle);   /* 列表圆点与序号 */
+  --mdh-fg-codelang: var(--mdh-fg-subtle); /* 代码语言标签 */
+  --mdh-fg-placeholder: var(--mdh-fg-subtle); /* 空态 / 失败态 / 失效态提示 */
+
+  /* 背景 */
+  --mdh-bg: #ffffff;
+  --mdh-bg-subtle: #f5f5f4;
+  --mdh-bg-code: #f7f7f6;
+
+  /* 拆开的背景色：默认跟随 bg-subtle，保持视觉不变 */
+  --mdh-bg-code-block: var(--mdh-bg-subtle);    /* 代码块 */
+  --mdh-bg-inline-code: var(--mdh-bg-subtle);   /* 行内代码 */
+  --mdh-bg-quote: var(--mdh-bg-subtle);         /* 引用块 */
+  --mdh-bg-kbd: var(--mdh-bg-subtle);           /* 键盘按键 */
+
+  /* 线条 */
+  --mdh-border: #dcdcdc;
+  --mdh-border-strong: #b8b8b8;
+
+  /* 拆开的线条色：默认跟随 border */
+  --mdh-border-table: var(--mdh-border);        /* 表格单元格线 */
+  --mdh-border-divider: var(--mdh-border);      /* 分割线 */
+  --mdh-border-quote: var(--mdh-border);        /* 引用块左边框 */
+
+  /* 强调：朱红，只用于功能标记 */
+  --mdh-accent: #c8402f;
+  --mdh-accent-soft: #f5e6e3;
+  --mdh-accent-ink: #9e2f22;
+
+  /*
+   * 拆开的强调色（共 21 处共用，耦合最严重）
+   *
+   * 默认全部跟随 --mdh-accent，所以不配就与拆分前一致。
+   * 企业想单独调某一类（比如链接用蓝、待办用绿）时才需要设。
+   */
+  --mdh-accent-link: var(--mdh-accent);   /* 链接 */
+  --mdh-accent-ref: var(--mdh-accent);    /* 引用编号 */
+  --mdh-accent-task: var(--mdh-accent);   /* 待办勾选 */
+  --mdh-accent-select: var(--mdh-accent); /* 选中框 */
+
+  /* 字号阶梯（1.333 比例） */
+  --mdh-fs-body: 16px;
+  --mdh-fs-h1: 28px;
+  --mdh-fs-h2: 23px;
+  --mdh-fs-h3: 19px;
+  --mdh-fs-small: 14px;
+  --mdh-fs-code: 13.5px;
+
+  /* 行高 */
+  --mdh-lh-body: 1.7;
+  --mdh-lh-heading: 1.3;
+
+  /* 用户空行的高度系数：空 1 行 = 行高 × 0.6（约 16px）
+   *
+   * 取 1.0 会让段与段被切得太开（27px 空白），取更小又失去"空行"的意义。
+   * 调这一个值就能整体控制所有空行的疏密。 */
+  --mdh-blank-ratio: 0.6;
+
+  /* 间距（8px 网格） */
+  --mdh-space-1: 8px;
+  --mdh-space-2: 16px;
+  --mdh-space-3: 24px;
+  --mdh-space-4: 32px;
+  --mdh-space-5: 48px;
+
+  /* 圆角：只在小元素上用，大容器保持直角 */
+  --mdh-radius: 2px;
+  --mdh-radius-sm: 2px;
+
+  /* 字体 */
+  --mdh-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", sans-serif;
+  /*
+   * 代码字体：Menlo 优先
+   *
+   * 作者 2026-11-22：SF Mono / ui-monospace 的字形太方正，夹在中文里像一块铁。
+   * Menlo 同样等宽但转折更圆，中英混排时观感柔和得多。
+   */
+  --mdh-font-mono: "Menlo", "SF Mono", ui-monospace, SFMono-Regular, Consolas,
+    "Liberation Mono", monospace;
+  /* 行内代码单独一档，方便以后和块级代码分开调 */
+  --mdh-font-inline-code: "Menlo", "SF Mono", ui-monospace, SFMono-Regular, Consolas,
+    "Liberation Mono", monospace;
+
+  /* 内容宽度 */
+  --mdh-measure: 42em;
+}
+
+/* ---------- 容器 ---------- */
+.mdh-document {
+  max-width: var(--mdh-measure);
+  margin: 0 auto;
+  padding: var(--mdh-space-5) var(--mdh-space-3);
+  background: var(--mdh-bg);
+  color: var(--mdh-fg);
+  font-family: var(--mdh-font-body);
+  font-size: var(--mdh-fs-body);
+  line-height: var(--mdh-lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /*
+   * 长串字母 / URL / 无空格文本必须在容器内换行。
+   * 放在根容器上，一次覆盖段落、标题、列表项、表格单元格——
+   * 任何一个漏了都会横向撑破版面（M310 就是这么溢出的）。
+   */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* ---------- 标题 ---------- */
+/*
+ * 标题：靠字号和间距分级，不用下边线
+ *
+ * 作者 2026-11-22：H2 的下边线去掉——整篇标题都保持「同一张纸」的干净感，
+ * 层级由字号（28/23/19/17/16/15）和上间距表达。
+ *
+ * 上下间距不对称是刻意的：上大下小，标题才会「归属」它下面那段，
+ * 而不是浮在两段之间。
+ */
+.mdh-heading {
+  font-weight: 600;
+  line-height: var(--mdh-lh-heading);
+  letter-spacing: -0.01em;
+  color: var(--mdh-fg);
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.mdh-heading:first-child {
+  margin-top: 0;
+}
+
+/*
+ * `.mdh-doc-title` / `--mdh-fs-doc-title` 已移除（2026-11-25）
+ *
+ * 原先是 `@title(文档名)` 的页面大标题样式。该指令已降级为预留关键字
+ * （不再产出任何元素），样式留着会让第三方误以为存在这个元素，故一并删除。
+ * 将来重新启用时再加回来。
+ */
+
+.mdh-heading-1 {
+  font-size: var(--mdh-fs-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  --mdh-own-mt: 16px;
+  margin: var(--mdh-own-mt) 0 8px;
+}
+
+.mdh-heading-2 {
+  font-size: var(--mdh-fs-h2);
+  --mdh-own-mt: 16px;
+  margin: var(--mdh-own-mt) 0 8px;
+}
+
+.mdh-heading-3 {
+  font-size: var(--mdh-fs-h3);
+  --mdh-own-mt: 16px;
+  margin: var(--mdh-own-mt) 0 6px;
+}
+
+.mdh-heading-4 {
+  font-size: 17px;
+  font-weight: 600;
+  --mdh-own-mt: 16px;
+  margin: var(--mdh-own-mt) 0 6px;
+  color: var(--mdh-fg);
+}
+
+.mdh-heading-5 {
+  font-size: 16px;
+  font-weight: 600;
+  --mdh-own-mt: 16px;
+  margin: var(--mdh-own-mt) 0 6px;
+  color: var(--mdh-fg);
+}
+
+.mdh-heading-6 {
+  font-size: 15px;
+  font-weight: 600;
+  --mdh-own-mt: 16px;
+  margin: var(--mdh-own-mt) 0 4px;
+  color: var(--mdh-fg);
+}
+
+/* 标题后面紧跟的块，不要再叠一份上边距 */
+.mdh-heading-1 + *,
+.mdh-heading-2 + *,
+.mdh-heading-3 + *,
+.mdh-heading-4 + *,
+.mdh-heading-5 + *,
+.mdh-heading-6 + * {
+  margin-top: 0;
+}
+
+/* ---------- 段落 ---------- */
+/*
+ * 段落：段与段之间只留 10px
+ *
+ * 作者 2026-11-22：原来「段落 margin-bottom 16px + 下一个段落 margin-top」
+ * 加起来 40 多像素，一篇文档读下来到处是空白。
+ * 现在段间距统一 10px；用户真的想分开，自己敲空行（见下面的 data-mdh-blank）。
+ */
+.mdh-paragraph {
+  margin: 0;
+  /*
+   * DESIGN-2（2026-11-22）：行内连续空格保留。
+   *
+   * 默认 `white-space: normal` 会把 `A    B` 折叠成一个空格，
+   * 源码里敲的对齐、留白全部消失 —— 与「换行能保留」不一致。
+   *
+   * `pre-wrap` 保留空格且仍可折行；不用 `break-spaces` 是因为它把
+   * 空格当断行点，用空格做的对齐在窄屏会被拆散。
+   *
+   * `overflow-wrap: anywhere` 兜住反效果：超长无空格串（URL、长英文词）
+   * 原本就会溢出，加上后可在任意位置断行。
+   *
+   * 行尾空格由渲染层 trimEnd() 裁掉，这里不用管。
+   */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mdh-paragraph + .mdh-paragraph {
+  margin-top: 10px;
+}
+
+/*
+ * 用户空行：作者敲了几个空行，就看见几个空行的高度
+ *
+ * 渲染层只给「前面空了几行」这个事实（data-mdh-blank），
+ * 换算成多少像素是主题层的自由。
+ *
+ * 系数取 0.6（见 :root 的 --mdh-blank-ratio）：
+ *   取 1.0 时一行空行 = 27px，段与段被切得太开（作者 2026-11-22 反馈）；
+ *   0.6 时约 16px，仍然明确是「空了一行」，但不生硬。
+ *
+ * 不用 attr() 参与 calc：Safari 对「attr() 作为数值」支持不完整。
+ * 枚举 10 档虽然长，但所有浏览器一致。
+ */
+/* 1 行空行 */
+.mdh-paragraph[data-mdh-blank="1"],
+.mdh-item-para[data-mdh-blank="1"],
+.mdh-item[data-mdh-blank="1"],
+.mdh-heading[data-mdh-blank="1"],
+.mdh-list[data-mdh-blank="1"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 1); }
+
+/* 2 行空行 */
+.mdh-paragraph[data-mdh-blank="2"],
+.mdh-item-para[data-mdh-blank="2"],
+.mdh-item[data-mdh-blank="2"],
+.mdh-heading[data-mdh-blank="2"],
+.mdh-list[data-mdh-blank="2"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 2); }
+
+/* 3 行空行 */
+.mdh-paragraph[data-mdh-blank="3"],
+.mdh-item-para[data-mdh-blank="3"],
+.mdh-item[data-mdh-blank="3"],
+.mdh-heading[data-mdh-blank="3"],
+.mdh-list[data-mdh-blank="3"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 3); }
+
+/* 4 行空行 */
+.mdh-paragraph[data-mdh-blank="4"],
+.mdh-item-para[data-mdh-blank="4"],
+.mdh-item[data-mdh-blank="4"],
+.mdh-heading[data-mdh-blank="4"],
+.mdh-list[data-mdh-blank="4"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 4); }
+
+/* 5 行空行 */
+.mdh-paragraph[data-mdh-blank="5"],
+.mdh-item-para[data-mdh-blank="5"],
+.mdh-item[data-mdh-blank="5"],
+.mdh-heading[data-mdh-blank="5"],
+.mdh-list[data-mdh-blank="5"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 5); }
+
+/* 6 行空行 */
+.mdh-paragraph[data-mdh-blank="6"],
+.mdh-item-para[data-mdh-blank="6"],
+.mdh-item[data-mdh-blank="6"],
+.mdh-heading[data-mdh-blank="6"],
+.mdh-list[data-mdh-blank="6"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 6); }
+
+/* 7 行空行 */
+.mdh-paragraph[data-mdh-blank="7"],
+.mdh-item-para[data-mdh-blank="7"],
+.mdh-item[data-mdh-blank="7"],
+.mdh-heading[data-mdh-blank="7"],
+.mdh-list[data-mdh-blank="7"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 7); }
+
+/* 8 行空行 */
+.mdh-paragraph[data-mdh-blank="8"],
+.mdh-item-para[data-mdh-blank="8"],
+.mdh-item[data-mdh-blank="8"],
+.mdh-heading[data-mdh-blank="8"],
+.mdh-list[data-mdh-blank="8"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 8); }
+
+/* 9 行空行 */
+.mdh-paragraph[data-mdh-blank="9"],
+.mdh-item-para[data-mdh-blank="9"],
+.mdh-item[data-mdh-blank="9"],
+.mdh-heading[data-mdh-blank="9"],
+.mdh-list[data-mdh-blank="9"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 9); }
+
+/* 10 行空行 */
+.mdh-paragraph[data-mdh-blank="10"],
+.mdh-item-para[data-mdh-blank="10"],
+.mdh-item[data-mdh-blank="10"],
+.mdh-heading[data-mdh-blank="10"],
+.mdh-list[data-mdh-blank="10"] { margin-top: calc(var(--mdh-fs-body) * var(--mdh-lh-body) * var(--mdh-blank-ratio) * 10); }
+.mdh-heading[data-mdh-blank="10"],
+.mdh-list[data-mdh-blank="10"] { margin-top: calc(var(--mdh-own-mt, 0px) + var(--mdh-lh-body) * var(--mdh-blank-ratio) * 10em); }
+
+/* ---------- 列表 ---------- */
+.mdh-list {
+  /* 空行要叠加在基础间距之上（见下方 data-mdh-blank 规则），
+     用变量存基础值，改这里只改一处 */
+  --mdh-own-mt: 12px;
+  margin: var(--mdh-own-mt) 0;
+  padding-left: 1.4em;
+}
+
+/* ---------- 块内空行（V5）----------
+ *
+ * `***list` 里作者连续敲的空行是有意的排版，要占出对应的视觉高度。
+ * 高度取一个正文行高，和源码里一行的观感对齐。
+ */
+.mdh-blank {
+  height: calc(var(--mdh-lh-body, 1.7) * 1em);
+}
+
+.mdh-list-unordered {
+  list-style: disc;
+}
+
+/* 圆点用原生 marker，嵌套时自动跟随缩进，不会错位 */
+.mdh-list-unordered > .mdh-item::marker {
+  color: var(--mdh-fg-marker);
+  font-size: 0.9em;
+}
+
+.mdh-list-ordered {
+  list-style: decimal;
+}
+
+.mdh-list-ordered > .mdh-item::marker {
+  color: var(--mdh-fg-marker);
+  font-variant-numeric: tabular-nums;
+}
+
+.mdh-item {
+  position: relative;
+  margin: 2px 0;
+  line-height: var(--mdh-lh-body);
+}
+
+/* 嵌套列表：上下不留白，只缩进 */
+.mdh-item > .mdh-list {
+  margin: 2px 0;
+  padding-left: 1.2em;
+}
+
+.mdh-item-para {
+  display: block;
+  color: var(--mdh-fg-list-para);
+  margin-top: 2px;
+  /* DESIGN-2：列表项补充段同样保留行内空格（详见 .mdh-paragraph 的说明） */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 任务列表：用 marker 位置放复选框，避免绝对定位在嵌套时错位 */
+.mdh-item-task {
+  list-style: none;
+}
+
+.mdh-item-task::marker {
+  content: "";
+}
+
+.mdh-item-task::before {
+  content: "";
+  position: absolute;
+  left: -1.1em;
+  top: 0.45em;
+  width: 0.95em;
+  height: 0.95em;
+  border: 1.5px solid var(--mdh-border-strong);
+  border-radius: 3px;
+  background: var(--mdh-bg);
+  box-sizing: border-box;
+}
+
+/* 已完成：实心 + 对勾（用中性深灰，不用强调色——勾选是状态不是标记） */
+.mdh-item-task[data-mdh-task="done"]::before {
+  background: var(--mdh-fg-muted);
+  border-color: var(--mdh-fg-muted);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.2 2.2 4.6-4.6' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 72%;
+}
+
+.mdh-item-task[data-mdh-task="done"] {
+  color: var(--mdh-fg-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--mdh-border-strong);
+}
+
+/* ---------- 表格 ---------- */
+.mdh-table {
+  width: 100%;
+  margin: var(--mdh-space-3) 0;
+  border-collapse: collapse;
+  font-size: var(--mdh-fs-small);
+  line-height: 1.6;
+}
+
+/*
+ * 表格题注：放在表格**下方**居中
+ *
+ * 作者 2026-11-22：原来 caption-side: top + 左对齐，题注浮在表格上方，
+ * 读者先看到「表 1 对比」再看到表格本体，顺序是反的。
+ */
+/* 表格题注
+ *
+ * 用类名而不是 `.mdh-table caption`（2026-11-22）：嵌套表格时前者只命中
+ * 自己那一层，后者会同时命中内外两层。
+ */
+.mdh-table-caption {
+  caption-side: bottom;
+  text-align: center;
+  padding-top: var(--mdh-space-1);
+  padding-bottom: 0;
+  font-size: var(--mdh-fs-small);
+  color: var(--mdh-fg-caption);
+}
+
+.mdh-table-th {
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1.5px solid var(--mdh-border-strong);
+  white-space: nowrap;
+}
+
+.mdh-table-td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--mdh-border-table);
+}
+
+/* 最后一行不画下边框（表格底部已经有视觉收口）
+ *
+ * 用 :last-child 是标准做法，第三方想给末行也加线时，
+ * 写一个更具体的选择器即可：
+ *   .mdh-table .mdh-row:last-child .mdh-table-td { border-bottom: ... }
+ */
+.mdh-table tr:last-child .mdh-table-td {
+  border-bottom: none;
+}
+
+/*
+ * 表格编号（DECISION-4）
+ *
+ * 第二层只输出 data-mdh-number（纯数字），措辞在这里拼。
+ * 换语言 = 换一份 CSS，不需要重新编译。
+ *
+ * 默认英文（学术惯例）：
+ *   table → "Table 1"    figure → "Figure 1"    math → "Eq. (1)"
+ * 中文写法：把下面三个 content 换成 "表 " / "图 " / "式(" attr(...) ")"
+ */
+.mdh-table[data-mdh-kind="table"] caption::before {
+  content: "Table " attr(data-mdh-number) "　";
+  color: var(--mdh-accent);
+  font-weight: 500;
+}
+
+/* ---------- 引用 ---------- */
+.mdh-quote {
+  margin: var(--mdh-space-3) 0;
+  padding: 0 0 0 var(--mdh-space-2);
+  border-left: 2px solid var(--mdh-border-strong);
+  color: var(--mdh-fg-quote);
+  /* 配置能力备忘（2026-11-22）：
+   *   背景色  --mdh-bg-quote 已有变量，但默认不启用（当前是纯竖线形态）
+   *   竖线色  --mdh-border-strong
+   *   圆角    --mdh-radius-sm
+   * 想做「竖线 + 背景」形态时，加 background + 四周 padding 即可。 */
+}
+
+/* 引用内块：首尾去掉外边距，中间保持正常间距 */
+.mdh-quote > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.mdh-quote > * + * {
+  margin-top: var(--mdh-space-2);
+}
+
+/* 引用内的列表、代码块跟随引用色，但保持自身结构 */
+.mdh-quote .mdh-list {
+  margin: 0;
+}
+
+.mdh-quote .mdh-code {
+  margin: 0;
+}
+
+/* ---------- 分割线 ---------- */
+.mdh-divider {
+  border: none;
+  /* 视觉上是中间一条线，靠背景渐变实现；元素本身有 25px 高，方便点选 */
+  height: 25px;
+  margin: var(--mdh-space-3) 0;
+  background: linear-gradient(var(--mdh-border-divider), var(--mdh-border-divider)) center / 100% 1px no-repeat;
+  cursor: default;
+}
+
+/* ---------- 代码 ---------- */
+.mdh-code {
+  margin: var(--mdh-space-3) 0;
+  padding: var(--mdh-space-2) var(--mdh-space-2);
+  background: var(--mdh-bg-subtle);
+  border-radius: var(--mdh-radius);
+  overflow-x: auto;
+  font-family: var(--mdh-font-mono);
+  font-size: var(--mdh-fs-code);
+  line-height: 1.6;
+}
+
+.mdh-code-content {
+  font-family: inherit;
+  background: none;
+  padding: 0;
+}
+
+/* ---------- 分栏 ---------- */
+.mdh-columns {
+  display: grid;
+  gap: var(--mdh-space-3);
+  margin: var(--mdh-space-3) 0;
+  /* 默认等宽 */
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+/* 按 data-mdh-ratios 覆盖宽度比（常见组合） */
+.mdh-columns[data-mdh-ratios="1,2"] { grid-template-columns: 1fr 2fr; }
+.mdh-columns[data-mdh-ratios="2,1"] { grid-template-columns: 2fr 1fr; }
+.mdh-columns[data-mdh-ratios="1,3"] { grid-template-columns: 1fr 3fr; }
+.mdh-columns[data-mdh-ratios="3,1"] { grid-template-columns: 3fr 1fr; }
+.mdh-columns[data-mdh-ratios="1,1,2"] { grid-template-columns: 1fr 1fr 2fr; }
+.mdh-columns[data-mdh-ratios="2,1,1"] { grid-template-columns: 2fr 1fr 1fr; }
+.mdh-columns[data-mdh-ratios="1,1,1"] { grid-template-columns: 1fr 1fr 1fr; }
+.mdh-columns[data-mdh-ratios="1,1"] { grid-template-columns: 1fr 1fr; }
+.mdh-columns[data-mdh-ratios="1,2,1"] { grid-template-columns: 1fr 2fr 1fr; }
+
+.mdh-col {
+  min-width: 0;
+}
+
+.mdh-col > *:first-child {
+  margin-top: 0;
+}
+
+/* ---------- 公式 / 图表 ---------- */
+.mdh-math {
+  margin: var(--mdh-space-3) 0;
+  text-align: center;
+  min-height: 1.5em;
+}
+
+.mdh-figure {
+  margin: var(--mdh-space-3) 0;
+  text-align: center;
+}
+
+.mdh-figcaption {
+  margin-top: var(--mdh-space-1);
+  font-size: var(--mdh-fs-small);
+  color: var(--mdh-fg-caption);
+}
+
+/* 图编号（DECISION-4：措辞归第三层，默认英文） */
+.mdh-figure[data-mdh-kind="figure"] .mdh-figcaption::before {
+  content: "Figure " attr(data-mdh-number) "　";
+  color: var(--mdh-accent);
+  font-weight: 500;
+}
+
+/* 式编号：有 caption 的 ***math 走 figure 结构，措辞同样归主题层 */
+.mdh-figure[data-mdh-kind="equation"] .mdh-figcaption::before {
+  content: "Eq. (" attr(data-mdh-number) ")　";
+  color: var(--mdh-accent);
+  font-weight: 500;
+}
+
+.mdh-chart-body {
+  min-height: 260px;
+}
+
+/*
+ * Mermaid 图体（2026-11-25 改：居中）
+ *
+ * 原来是 `text-align: left` —— 图整体贴在左边，右边空一大片。
+ * 图是「插图」，跟表格题注、公式一样属于居中的视觉单元，
+ * 左对齐只在一种情况下合理：渲染失败降级显示源码（见 .mdh-mermaid-failed）。
+ *
+ * mermaid 输出的 <svg> 是 inline 元素，宽度按图的内容定，
+ * 所以居中靠 text-align 就够，不需要给 svg 设 margin。
+ */
+.mdh-mermaid-body {
+  margin: 0;
+  text-align: center;
+  /* DECISION-6：超宽等比缩小，不横向滚动、不裁切 */
+  max-width: 100%;
+  overflow: visible;
+  font-family: var(--mdh-font-mono);
+  font-size: 13px;
+  color: var(--mdh-fg-subtle);
+}
+
+/*
+ * ---------- 正文引用 @名字（2026-11-25 修订）----------
+ *
+ * 元素内是原文 `@名字`（.mdh-ref-name），主题色标出、可点跳转。
+ *
+ * 视觉规则（作者 2026-11-25 定）：
+ *   · 平时 —— 主题红，**没有下划线**（下划线会和链接混淆）
+ *   · 悬停 —— 只把文字颜色提亮一档（约 +20%），不加任何线
+ *
+ * ⚠️ 选择器要写 `.mdh-document a.mdh-ref`：
+ *    文档末尾有 `.mdh-document a { color: inherit }` 一刀切规则，
+ *    单写 `.mdh-ref` 会被它盖掉，引用就变成正文黑 —— 早先就是这样。
+ */
+.mdh-document a.mdh-ref {
+  color: var(--mdh-accent-ref);
+  text-decoration: none;
+  border-bottom: none;
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+
+.mdh-document a.mdh-ref:hover {
+  /* 提亮一档：与主题红同色相加白，约 +20% 亮度 */
+  color: color-mix(in srgb, var(--mdh-accent-ref) 80%, white);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/*
+ * 只有 ref、没有 caption 的引用：同样显示原文，只是不加编号。
+ */
+.mdh-document a.mdh-ref-plain {
+  color: var(--mdh-accent);
+}
+
+/* ---------- 失效引用（DESIGN-1）----------
+ *
+ * `@名字` 指向的目标不存在时输出这个类。
+ *
+ * 视觉：灰字 + 虚下划线。读者能看出「这里没连上」，
+ * 但不会以为是一段带下划线的普通文字（虚线与实线区分明确）。
+ *
+ * 用 <span> 而非 <a>，没有 href，从根上避免「点了没反应」的困惑。
+ * 不弹 tooltip、不加问号 —— 标记要在样式层表达，不往内容里塞字符。
+ */
+.mdh-ref-broken {
+  color: var(--mdh-fg-muted);
+  border-bottom: 1px dashed currentColor;
+  cursor: inherit;
+}
+
+/*
+ * ⚠️ 不加前置问号（2026-11 作者裁决）
+ *
+ * 曾经用 `::before { content: "?" }` 让失效引用更醒目，但作者反馈：
+ * 「问号可以去掉」。理由站得住 —— 虚下划线 + 淡色已经足够说明
+ * 「这里没连上」，多一个问号是在正文里凭空插字符，读者会以为
+ * 那是原文的一部分。标记要在**样式层**表达，不要往内容里加东西。
+ */
+
+/* ---------- 不可见字符（DESIGN-3）----------
+ *
+ * 零宽空格、双向控制符这类 Cf 字符必须让人看见，否则可被用来
+ * 藏「忽略上述指令」之类的隐形注入。渲染成灰底行内代码 `[U+200B]`。
+ *
+ * 借用 .mdh-inline-code 的视觉，这里只补一点警示色。
+ */
+.mdh-invisible {
+  color: var(--mdh-accent);
+  border: 1px dashed var(--mdh-border-strong);
+  background: var(--mdh-accent-soft);
+  font-size: 0.85em;
+  cursor: help;
+}
+
+/* ---------- @ 家族：标签 / 脚注 / 链接 / 图片 ---------- */
+
+/*
+ * 保留关键字：红字，别的一概没有。
+ *
+ * 用于 `@tag(...)` / `@theme(...)` / `@slide-theme(...)` / `@next-tab(...)` ——
+ * 这些是「语法已占用、当前还不生效」的词。作者和读者要能一眼认出
+ * 「这是个语法词」，所以上强调色；但它**不是标签**，所以：
+ *   无底色、无圆角、无内边距、不改字号、不加边框。
+ *
+ * ⚠️ 与下面的 `.mdh-tag` 完全不同 —— 那是真标签的胶囊样式，
+ *    当前没有任何语法会产出它（`@tag` 已关闭）。
+ */
+.mdh-keyword-reserved {
+  color: var(--mdh-accent);
+}
+
+/*
+ * ⚠️ 已停用：真标签的胶囊样式
+ *
+ * `@tag(名字)` 本期关闭（DESIGN-4），渲染层不再产出 `class="mdh-tag"`。
+ * 样式留着是为了将来重开时不至于丢设计，但**当前没有任何东西会命中它**。
+ * 保留字走的是上面的 `.mdh-keyword-reserved`。
+ *
+ * 标签：药丸形，强调色浅底 + 深红字
+ * 作者 2026-11-22：不要方框、不要前面的 `#`。
+ */
+.mdh-tag {
+  display: inline-block;
+  margin: 0 2px;
+  padding: 0.1em 0.62em;
+  font-size: 0.82em;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: var(--mdh-accent-ink);
+  background: var(--mdh-accent-soft);
+  border: none;
+  border-radius: 999px;
+  white-space: nowrap;
+  vertical-align: 0.05em;
+}
+
+.mdh-tag::before {
+  content: none;
+}
+
+/* 脚注上标：数字本身用强调色，其余中性 */
+.mdh-foot-ref {
+  font-size: 0.72em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.mdh-foot-link {
+  color: var(--mdh-accent);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0 1px;
+}
+
+.mdh-foot-link:hover {
+  text-decoration: underline;
+}
+
+/* 未定义的脚注：灰掉，让读者知道这里缺内容 */
+.mdh-foot-ref.mdh-foot-undefined {
+  color: var(--mdh-fg-placeholder);
+  border-bottom: 1px dashed var(--mdh-border-strong);
+}
+
+/* 文末脚注区 */
+.mdh-footnotes {
+  margin-top: var(--mdh-space-6);
+  padding-top: var(--mdh-space-3);
+  border-top: 1px solid var(--mdh-border);
+  font-size: var(--mdh-fs-small);
+  color: var(--mdh-fg-note);
+}
+
+.mdh-footnotes-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mdh-footnote {
+  display: flex;
+  gap: 0.5em;
+  padding: 0.28em 0;
+  line-height: 1.7;
+}
+
+.mdh-footnote:target {
+  background: var(--mdh-accent-soft);
+}
+
+.mdh-footnote-num {
+  flex: 0 0 auto;
+  color: var(--mdh-accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.mdh-footnote-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mdh-footnote-undefined .mdh-footnote-body {
+  color: var(--mdh-fg-subtle);
+  font-style: italic;
+}
+
+/* 链接：强调色 + 下划线，与正文区分 */
+.mdh-link {
+  color: var(--mdh-accent-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+.mdh-link:hover {
+  color: var(--mdh-accent-ink);
+}
+
+/* 图片：块级留白，不撑破版心 */
+.mdh-img {
+  max-width: 100%;
+  height: auto;
+  margin: var(--mdh-space-2) 0;
+  vertical-align: middle;
+}
+
+/* ---------- 目录 ---------- */
+.mdh-toc {
+  margin: var(--mdh-space-3) 0;
+  padding: var(--mdh-space-2) 0;
+  border-top: 1px solid var(--mdh-border);
+  border-bottom: 1px solid var(--mdh-border);
+  font-size: var(--mdh-fs-small);
+}
+
+/* 目录列表：去掉默认圆点与缩进，层级由 data-mdh-toc-level 决定 */
+.mdh-toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 目录列表外包装（补齐缺失类）
+ *
+ * `toc.ts` 会先产出 `<div class="mdh-toc-list-wrap">` 再塞入列表。
+ * 之前没有样式，靠浏览器默认的块级行为也看不出问题；
+ * 显式声明是为了让意图明确，也方便主题作者定位。
+ */
+.mdh-toc-list-wrap {
+  display: block;
+}
+
+.mdh-toc-item {
+  margin: 0;
+  padding: 0.18em 0;
+}
+
+/*
+ * 层级缩进（2026-11-25 二次收紧）
+ *
+ * 第一版 1.2/2.4/3.6em → 四级缩进 58px，像被推到半空。
+ * 第二版 0.9/1.8/2.4em → 还是显得松。
+ *
+ * 现在：每级只加 0.6em，四级封顶 1.6em（约 22px）。
+ * 目录是「扫读用的索引」，层级靠缩进差 + 字重区分就够了，
+ * 不需要靠大留白来表达深度。
+ */
+.mdh-toc-item[data-mdh-toc-level='2'] {
+  padding-left: 0.6em;
+}
+
+.mdh-toc-item[data-mdh-toc-level='3'] {
+  padding-left: 1.1em;
+}
+
+.mdh-toc-item[data-mdh-toc-level='4'] {
+  padding-left: 1.6em;
+}
+
+.mdh-toc-link {
+  color: var(--mdh-fg-toc);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.mdh-toc-link:hover {
+  color: var(--mdh-accent);
+  border-bottom-color: var(--mdh-accent);
+}
+
+/* 一级条目稍重，便于扫读 */
+.mdh-toc-item[data-mdh-toc-level='1'] > .mdh-toc-link {
+  color: var(--mdh-fg);
+  font-weight: 500;
+}
+
+.mdh-toc-empty {
+  margin: 0;
+  color: var(--mdh-fg-placeholder);
+  font-style: italic;
+}
+
+/* ---------- slides ---------- */
+/*
+ * 单页容器（2026-11-25 缩小留白）
+ *
+ * 原来 `padding: 48px 64px`，在 672×378 的页面上：
+ *   上下各吃掉 12.7% 高度、左右各吃掉 9.5% 宽度
+ *   内容区只剩 544×282 —— 写两行字就满了。
+ *
+ * ⚠️ 不用百分比 padding：CSS 的百分比 padding **按宽度算**，
+ *    16:9 页面里上下会远超预期（实测 5.5% 得到 37px ≈ 20% 高度）。
+ *
+ * 现在用固定值：上下 20px、左右 36px。内容区从 544×282 变成 ~600×338，
+ * 多了约 32% 面积，同时仍保留「幻灯片有边距」的观感。
+ */
+.mdh-page-slides .mdh-slide {
+  aspect-ratio: 16 / 9;
+  box-sizing: border-box;
+  padding: 20px 36px;
+  margin-bottom: var(--mdh-space-3);
+  border: 1px solid var(--mdh-border);
+  border-radius: var(--mdh-radius);
+  background: var(--mdh-bg);
+  overflow: hidden;
+}
+
+/*
+ * 幻灯片内容自适应（2026-11-25，纯 CSS）
+ *
+ * ── 要分清两种溢出 ──
+ *   ① 整页内容太多（标题+图+表塞满）→ **正常**，让它溢出，作者拆页。
+ *   ② 单个图比页面还高 → 块自己按「可用宽高的较小值」等比缩小。
+ * 这段只管 ②。
+ *
+ * ── 为什么现在能做到（之前做不到）──
+ * 关键在渲染层输出的这层结构：
+ *   section.mdh-slide            ← 16:9 + padding，高度确定
+ *     └ div.mdh-slide-inner      ← flex 撑满「可用区」，高度确定
+ *         └ figure > svg         ← max-height: 100% 有依据了
+ *
+ * 早先没有 .mdh-slide-inner，`max-height: 100%` 的百分比无处可依，
+ * 图只能按自身高度撑破页面 —— 那时才需要 JS 去量。
+ * 现在有了确定高度的容器，纯 CSS 就能算，接入方不用调任何函数。
+ *
+ * ⚠️ `min-height: 0` 不能省：flex 子项默认 `min-height: auto`，
+ *    会被内容撑开，导致子元素的 `max-height: 100%` 失效。
+ */
+
+/* 内层容器：撑满页面可用区，纵向排布 */
+.mdh-slide-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/*
+ * 页内块：默认按源码顺序排、互不挤压
+ *
+ * ⚠️ `flex-shrink: 0`（2026-11-25 修）
+ *    早先写的是 1，于是「大图 + 大表」同页时，表格把图挤成 0 高度 ——
+ *    图直接消失，读者以为内容丢了。
+ *
+ *    正确行为是**按顺序展示**：图占它该占的高度，后面的表格自然往下推。
+ *    溢出是「一页塞太多」的正常结果，由作者拆页解决；
+ *    不该牺牲前面的块来迁就后面的块。
+ *
+ * ⚠️ 同时清掉上下外边距（2026-11-25）
+ *    流式排版里块间距靠 margin（如 figure 上下各 24px），但 slides 是
+ *    定高页面：`max-height: 100%` 只管内容盒、不含 margin，
+ *    余量会被 margin 吃掉。这里的留白统一交给 `.mdh-slide` 的 padding。
+ *
+ * 例外：图（figure）在下面单独设为 `flex: 1 1 auto`，让它吃掉剩余高度。
+ */
+.mdh-slide-inner > * {
+  max-width: 100%;
+  min-height: 0;
+  flex-shrink: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* 题注保持自身高度，不跟着缩 */
+.mdh-page-slides .mdh-figcaption,
+.mdh-page-slides .mdh-table-caption {
+  flex: 0 0 auto;
+}
+
+/*
+ * 图：吃掉「标题之外的剩余高度」
+ *
+ * ── 为什么不能写 `max-height: 100%` ──
+ * 百分比参照的是 **inner 的全高**，不扣除同页其它块（标题、段落）。
+ * 于是「标题 + 图」时图按整页高算 → 加上标题就溢出（实测 mermaid 溢 67px、chart 溢 86px）。
+ *
+ * ── 正确做法：用 flex 分配 ──
+ * inner 是纵向 flex：
+ *   · 标题等固定高度元素 → `flex: 0 0 auto`（不伸不缩）
+ *   · 图 → `flex: 1 1 auto` + `min-height: 0`（吃掉剩下的）
+ * 这样「一页一个标题 + 一张图」时，图正好填满剩余空间，不会溢出。
+ *
+ * ── 多个图时 ──
+ * 每个图 `flex: 1`，平分剩余空间；仍然各自按宽高较小值等比缩。
+ *
+ * ⚠️ body 不能是 `display: flex`：SVG 作为 flex 子项时宽度按内容算，
+ *    实测会被压成 0×0。改成 block + text-align: center，
+ *    SVG 按 inline 元素排布，宽度由 `max-width/max-height` 定。
+ */
+.mdh-page-slides .mdh-mermaid-figure,
+.mdh-page-slides .mdh-chart-figure {
+  display: flex;
+  flex-direction: column;
+  /* 吃掉标题之外的剩余高度；min-height: 0 让它能被真正压缩 */
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.mdh-page-slides .mdh-mermaid-body,
+.mdh-page-slides .mdh-chart-body {
+  flex: 1 1 auto;
+  /*
+   * ⚠️ 必须显式 `width: 100%`
+   *
+   * 它是纵向 flex（figure）的子项，`flex-basis: auto` 会按**内容宽度**算；
+   * 而内容（svg/img）的宽度又依赖这个容器的宽度 —— 互相等待，最终塌成 0。
+   * 给死宽度基准就打破了循环。
+   */
+  width: 100%;
+  min-height: 0;
+  display: block;
+  text-align: center;
+  overflow: hidden;
+}
+
+/*
+ * SVG / IMG：按可用宽高的较小值等比缩
+ *
+ * 父级（body）高度由 flex 定死，`max-height: 100%` 就有依据了；
+ * 宽度 auto 跟着等比。`max-width: 100%` 兜住横向超宽的情况。
+ */
+.mdh-page-slides .mdh-mermaid-body svg,
+.mdh-page-slides .mdh-chart-body img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  vertical-align: middle;
+  object-fit: contain;
+}
+
+/*
+ * 表格：宽度自适应，不强制缩高度
+ *
+ * 表格是流式内容，缩字号毁可读性；行数多就让它溢出，
+ * 作者该拆成多页。这里只保证「不横向撑破」。
+ */
+.mdh-page-slides .mdh-table {
+  max-width: 100%;
+  min-height: 0;
+}
+
+.mdh-page-slides .mdh-heading-1 {
+  font-size: 40px;
+}
+
+.mdh-page-slides .mdh-heading-2 {
+  font-size: 30px;
+}
+
+/* ---------- 行内格式（视觉在此，结构在第二层） ---------- */
+.mdh-strong {
+  font-weight: 600;
+  color: var(--mdh-fg);
+}
+
+.mdh-em {
+  font-style: italic;
+}
+
+.mdh-u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--mdh-border-strong);
+}
+
+.mdh-del {
+  text-decoration: line-through;
+  color: var(--mdh-fg-muted);
+}
+
+.mdh-inline-code {
+  padding: 0.12em 0.36em;
+  background: var(--mdh-bg-inline-code);
+  border: none;
+  border-radius: 4px;
+  font-family: var(--mdh-font-inline-code);
+  font-size: 0.88em;
+  letter-spacing: 0.01em;
+  /*
+   * 行内代码 / 公式**不继承外层格式**（作者 2026-11-21 拍定）。
+   *
+   * `**加粗里有 `code`**` 时，code 要按自己的样式显示，不该变粗变斜。
+   * 规则统一，不区分「公式特殊」还是「代码特殊」——两者都是「内容原样」的东西。
+   */
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
+
+/* 行内公式：跟随正文基线 */
+.mdh-inline-math {
+  display: inline-block;
+  vertical-align: baseline;
+  /* 同上：不继承外层的加粗 / 斜体 / 下划线 / 删除线 */
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
+
+/* ---------- 代码块 ---------- */
+/*
+ * 代码块：一张「卡片」，不是一块「框」
+ *
+ * 作者 2026-11-22：原来的直角 + 1px 灰边 + 白顶栏看起来像贴上去的表格。
+ * 现在 8px 圆角、去掉外边框，顶栏与代码区同底色，靠一条细线分隔。
+ */
+.mdh-code {
+  position: relative;
+  margin: var(--mdh-space-3) 0;
+  padding: 0;
+  background: var(--mdh-bg-code-block);
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: var(--mdh-fs-code);
+  line-height: 1.7;
+}
+
+/* 顶栏：文件名 / 语言 / 复制，用真实元素（第三层 JS 注入） */
+.mdh-code-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--mdh-border);
+  background: transparent;
+  font-family: var(--mdh-font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.mdh-code-head .mdh-code-title {
+  color: var(--mdh-fg-muted);
+  font-weight: 500;
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mdh-code-head .mdh-code-lang {
+  color: var(--mdh-fg-codelang);
+  font-family: var(--mdh-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  margin-left: auto;   /* 没有文件名时，语言自己靠右 */
+}
+
+/* 有文件名时，文件名吃满左侧，语言跟在复制按钮前 */
+.mdh-code-head .mdh-code-title + .mdh-code-lang {
+  margin-left: 0;
+}
+
+.mdh-code-copy {
+  padding: 2px 8px;
+  border: 1px solid var(--mdh-border);
+  border-radius: var(--mdh-radius-sm);
+  background: var(--mdh-bg);
+  color: var(--mdh-fg-muted);
+  font-family: var(--mdh-font-body);
+  font-size: 11.5px;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.mdh-code-copy:hover {
+  color: var(--mdh-accent);
+  border-color: var(--mdh-accent);
+}
+
+.mdh-code-copy[data-copied="true"] {
+  color: var(--mdh-accent);
+  border-color: var(--mdh-accent);
+}
+
+/* 顶栏出现时，代码区不再需要顶部内边距 */
+.mdh-code-content {
+  display: block;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: var(--mdh-font-mono);
+  background: none;
+  tab-size: 2;
+}
+
+/* 无顶栏时（无文件名无语言），代码区自己留白 */
+.mdh-code > .mdh-code-content:only-child {
+  padding: 14px 16px;
+}
+
+/* ---------- 行号（2026-11-25）----------
+ *
+ * 第二层把每一行包成 <span class="mdh-code-line">，
+ * 这里用 CSS 计数器生成序号 —— 数字不写进 DOM。
+ *
+ * 好处：
+ *   · 复制代码时不会把行号一起复制走（user-select: none）；
+ *   · 主题一条 `counter-reset: none` 就能关掉。
+ */
+.mdh-code-content {
+  counter-reset: mdh-code-line;
+  /*
+   * 兜底：即使某个实现的行之间留了换行符，也不能让它撑出空行。
+   * 正常写法（第二层与高亮插件）已经不加 `\n` 了，这里是保险。
+   */
+  font-size: inherit;
+}
+
+.mdh-code-line {
+  counter-increment: mdh-code-line;
+  display: block;
+  position: relative;
+  /* 给行号留出左侧空位，代码本身不跟着缩进到行号里 */
+  padding-left: 3.2em;
+  /* 数字不占正文的行内空间，绝对定位到左侧留白里 */
+  white-space: pre;
+  /* 空行也要占一行高度，否则连续空行会被折叠掉 */
+  min-height: 1em;
+}
+
+.mdh-code-line::before {
+  content: counter(mdh-code-line);
+  position: absolute;
+  left: 0;
+  width: 2.2em;
+  text-align: right;
+  color: var(--mdh-fg-codelang);
+  opacity: 0.55;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ---------- 代码高亮配色（Swiss Modern：红 + 灰阶，克制） ---------- */
+.hljs-comment,
+.hljs-quote {
+  color: #8a8a8a;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-type,
+.hljs-built_in {
+  color: var(--mdh-accent-ink);
+}
+
+.hljs-string,
+.hljs-attr,
+.hljs-template-variable,
+.hljs-regexp {
+  color: #2f6b4f;
+}
+
+.hljs-number,
+.hljs-boolean {
+  color: #7a4a8c;
+}
+
+.hljs-title,
+.hljs-title.function_,
+.hljs-section {
+  color: var(--mdh-fg);
+  font-weight: 600;
+}
+
+.hljs-variable,
+.hljs-params,
+.hljs-property {
+  color: var(--mdh-fg);
+}
+
+.hljs-meta,
+.hljs-tag {
+  color: #6a6a6a;
+}
+
+.hljs-attribute {
+  color: #2f6b4f;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 600;
+}
+
+/* ---------- 公式 ---------- */
+.mdh-math {
+  margin: var(--mdh-space-3) 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* 公式内容容器（补齐缺失类）
+ *
+ * `.mdh-math-body` 是 KaTeX 注入前的容器，之前完全没有样式。
+ * KaTeX 会接管内部排版，这里只需保证它是块级、居中、不溢出。
+ */
+.mdh-math-body {
+  display: block;
+}
+
+/* KaTeX 默认字号略大，压回正文字号 */
+.mdh-math .katex {
+  font-size: 1.1em;
+}
+
+.mdh-inline-math .katex {
+  font-size: 1em;
+}
+
+/* ---------- Mermaid ---------- */
+/*
+ * DECISION-6：超宽等比缩小，不横向滚动。
+ *
+ * 原来的 `overflow-x: auto` 会让一张宽图在页面里出现横向滚动条——
+ * 图片文件不在源码里，用户无法在源码层修正，这是缺陷而不是取舍。
+ *
+ * 注意「压扁」是拉伸（不保持比例）造成的，等比缩小不会：
+ * 宽图只是整体变小，比例不变、不变形。
+ */
+.mdh-mermaid-figure .mdh-mermaid-body {
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+  margin: 0 auto;
+}
+
+.mdh-mermaid-body svg {
+  /* 见 .mdh-page-slides 里的说明：同时受宽高约束，取较小值等比缩放 */
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 图表外框（补齐缺失类）
+ *
+ * 之前只有 `.mdh-chart-body` 有样式，`figure` 外框没有任何规则，
+ * 与 `.mdh-mermaid-figure` 不一致。这里对齐 Mermaid 的处理：
+ * 外框负责上下间距与居中，内层负责尺寸。
+ */
+.mdh-chart-figure {
+  margin: var(--mdh-space-3) 0;
+  text-align: center;
+}
+
+.mdh-chart-figure .mdh-chart-body {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 渲染失败时降级显示源码
+ *
+ * 这里是唯一该左对齐的地方：显示的是 Mermaid 源码，不是图。
+ * 居中的源码很难读，逐行对齐才有意义。
+ * （同时覆盖了 .mdh-mermaid-body 的 text-align: center）
+ */
+.mdh-mermaid-failed {
+  text-align: left;
+  font-family: var(--mdh-font-mono);
+  font-size: 13px;
+  color: var(--mdh-fg-subtle);
+  background: var(--mdh-bg-subtle);
+  padding: var(--mdh-space-2);
+  border-radius: var(--mdh-radius);
+  white-space: pre-wrap;
+}
+
+/* ---------- 选中与 ID（交互态） ---------- */
+.mdh-selected {
+  position: relative;
+  outline: 2px solid var(--mdh-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+  background: var(--mdh-accent-soft);
+}
+
+/*
+ * 选中后的信息条：`M2 · 段落 · [复制] [编辑]`
+ *
+ * 它不是「提示」而是「操作入口」：
+ *   · 复制 → 把 ID 放进剪贴板，用户拿去跟 AI 对话
+ *   · 编辑 → 进入编辑态（仅可编辑时出现）
+ *
+ * 放在块的上方，不遮挡内容；深色底让它在浅色正文里一眼可见。
+ */
+.mdh-id-badge {
+  /* 定位由 JS 计算（fixed 贴在块上方）—— 这里只给外观 */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 10px;
+  background: #1a1c1f;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 4px;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/*
+ * ID：既显示也给点 —— 点它就是复制
+ *
+ * 用 button 只是为了让它能被键盘聚焦（无障碍），
+ * 视觉上必须完全是文字：无边框、无背景、无内边距。
+ * ⚠️ 不清掉 appearance 的话，浏览器会给它一颗灰底系统按钮。
+ */
+.mdh-id-badge-id {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: none;
+  font-family: var(--mdh-font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffb4a8;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: color 0.12s ease;
+}
+
+.mdh-id-badge-id:hover {
+  color: #ffd6ce;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mdh-id-badge-id:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 1px;
+}
+
+/* 分隔点 */
+.mdh-id-badge-dot {
+  opacity: 0.35;
+  margin: 0 1px;
+}
+
+/* 类型名：弱化，只是辅助信息 */
+.mdh-id-badge-type {
+  opacity: 0.72;
+  font-size: 12px;
+  margin-right: 2px;
+}
+
+/*
+ * 编辑：唯一的按钮
+ *
+ * ⚠️ 必须清掉浏览器默认的 button 外观（appearance / border / background），
+ *    否则在没加载到主题样式时会显出一颗灰扑扑的系统按钮。
+ */
+.mdh-id-badge-btn-edit {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: var(--mdh-accent, #c8402f);
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 3px 11px;
+  margin-left: 2px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.mdh-id-badge-btn-edit:hover {
+  background: var(--mdh-accent-ink, #9e2f22);
+}
+
+.mdh-id-badge-btn-edit:active {
+  background: var(--mdh-accent-ink, #9e2f22);
+  transform: translateY(0.5px);
+}
+
+.mdh-id-badge-btn-edit:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 1px;
+}
+
+/* 兼容旧写法：信息条里的 span 不该再整体降透明度 */
+.mdh-id-badge > span:not(.mdh-id-badge-dot):not(.mdh-id-badge-type) {
+  opacity: 0.9;
+}
+
+/* 操作工具栏 */
+.mdh-toolbar {
+  position: absolute;
+  top: -32px;
+  right: 0;
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--mdh-bg);
+  border: 1px solid var(--mdh-border-strong);
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+}
+
+.mdh-toolbar button {
+  width: 26px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--mdh-fg-muted);
+  font-size: 13px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.mdh-toolbar button:hover {
+  background: var(--mdh-bg-subtle);
+  color: var(--mdh-fg);
+}
+
+.mdh-toolbar button[data-act="remove"]:hover {
+  background: #ffebe9;
+  color: #cf222e;
+}
+
+/* ---------- 行内编辑器 ---------- */
+.mdh-editing {
+  position: relative;
+  outline: 2px solid var(--mdh-accent);
+  outline-offset: 4px;
+  background: #f6f8fa;
+}
+
+/*
+ * 编辑浮层（2026-11-25 加滚动）
+ *
+ * 之前的 `overflow: hidden` 会把超出的内容直接裁掉 ——
+ * 编辑一大块（比如一整个 ***list）时，下面的源码看不见也滚不到。
+ *
+ * 现在：整体限高在视口内，正文区自己滚，顶栏（保存/取消）固定在上方不动。
+ */
+.mdh-editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  background: #1a1c1f;
+  border-radius: 2px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.mdh-editor-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* 固定不收缩：正文区滚动时，保存/取消始终可见 */
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  background: #24262a;
+  color: #a8b0b8;
+  font-size: 12px;
+}
+
+.mdh-editor-id {
+  font-family: var(--mdh-font-mono);
+  background: rgba(255, 255, 255, 0.09);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+.mdh-editor-bar button {
+  margin-left: auto;
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: #adbac7;
+  font-size: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.mdh-editor-bar button + button {
+  margin-left: 0;
+}
+
+.mdh-editor-bar button[data-act="save"] {
+  background: var(--mdh-accent);
+  border-color: var(--mdh-accent);
+  color: #fff;
+}
+
+.mdh-editor-bar button:hover {
+  opacity: 0.85;
+}
+
+/*
+ * 编辑框（2026-11-25 改）
+ *
+ * 原来 min-height: 120px / resize: vertical —— 内容多了要自己拖，
+ * 输入体验很差。现在由 JS 跟着内容长高（见 mdh-interact-core.js 的
+ * autoGrow），CSS 只负责上下限：
+ *   min-height  —— 至少三行，块太小时框不至于缩成一条
+ *   max-height  —— 再长就内部滚动，不把整个页面顶出去
+ */
+.mdh-editor-input {
+  display: block;
+  width: 100%;
+  /* flex 子项：可收缩、可滚动（父层有 max-height，超出的由这里消化） */
+  flex: 1 1 auto;
+  min-height: 88px;
+  /* 不再写 max-height: 60vh —— 交给父层 .mdh-editor 的 max-height + flex 布局 */
+  max-height: none;
+  padding: 14px 16px;
+  border: none;
+  background: #1e2024;
+  color: #c6cdd4;
+  font-family: var(--mdh-font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  resize: none;
+  tab-size: 2;
+  outline: none;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   补齐的 HTML 标签样式
+   --------------------------------------------------------------------------
+   以下标签 @mdh/render 都会输出，但此前 default.css 一条规则都没写，
+   于是要么继承正文（层级塌了），要么用浏览器默认值（比如 mark 的刺眼黄色）。
+   作者 2026-11-22 逐个定稿。
+   ========================================================================== */
+
+/* 高亮：浏览器默认 #ffff00 太刺眼，换成强调色的浅底 */
+.mdh-document mark {
+  background: var(--mdh-accent-soft);
+  color: var(--mdh-accent-ink);
+  padding: 0.05em 0.2em;
+  border-radius: 2px;
+}
+
+/* 键盘按键：小方块 + 等宽字体，示意「按这个键」 */
+.mdh-document kbd {
+  display: inline-block;
+  padding: 0.1em 0.45em;
+  border: 1px solid var(--mdh-border-strong);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  background: var(--mdh-bg-subtle);
+  font-family: var(--mdh-font-inline-code);
+  font-size: 0.85em;
+  line-height: 1.4;
+  color: var(--mdh-fg);
+}
+
+/* 小字：浏览器默认 0.83em，但被 .mdh-document 的 font-size 覆盖了，要显式声明 */
+.mdh-document small {
+  font-size: 0.85em;
+  color: var(--mdh-fg-muted);
+}
+
+/* 缩写：虚线提示「这是个缩写」（渲染出来的 abbr 未必带 title） */
+.mdh-document abbr {
+  text-decoration: underline dotted var(--mdh-border-strong);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  cursor: help;
+}
+
+/* 行内引用：用中文书名号，不用浏览器默认的弯引号 */
+.mdh-document q {
+  quotes: "「" "」" "『" "』";
+}
+
+/* 定义列表：术语加粗，释义缩进并弱化 */
+.mdh-document dl {
+  margin: var(--mdh-space-2) 0;
+}
+
+.mdh-document dt {
+  font-weight: 600;
+  margin-top: var(--mdh-space-2);
+}
+
+.mdh-document dt:first-child {
+  margin-top: 0;
+}
+
+.mdh-document dd {
+  margin: var(--mdh-space-1) 0 0 var(--mdh-space-3);
+  color: var(--mdh-fg-muted);
+}
+
+/* 折叠块：summary 是唯一可见部分，要像「可点的标题」 */
+.mdh-document details {
+  margin: var(--mdh-space-2) 0;
+  padding: var(--mdh-space-2);
+  border: 1px solid var(--mdh-border);
+  border-radius: var(--mdh-radius);
+}
+
+.mdh-document summary {
+  font-weight: 600;
+  cursor: pointer;
+  margin: calc(var(--mdh-space-2) * -1) calc(var(--mdh-space-2) * -1) 0;
+  padding: var(--mdh-space-2);
+}
+
+.mdh-document summary + * {
+  margin-top: var(--mdh-space-2);
+}
+
+/* 视频：和图片一样居中、限宽 */
+.mdh-document video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: var(--mdh-space-3) auto;
+}
+
+/* 上下标：缩小但不要过小 */
+.mdh-document sup,
+.mdh-document sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+/* 斜体：中文语境下系统合成的 oblique 几乎看不出倾斜，加一点字重差异 */
+.mdh-document em,
+.mdh-document i {
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/*
+ * 脚注上标：朱红，与脚注编号同色
+ *
+ * 必须写在普通链接规则**之后**——早先版本用了 `.mdh-document a`
+ * 一刀切掉所有链接的颜色，把脚注引用也染成了正文色。
+ */
+.mdh-document a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mdh-document a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mdh-document .mdh-foot-link {
+  color: var(--mdh-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mdh-document .mdh-foot-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/*
+ * 目录限高：超过 60vh 内部滚动
+ *
+ * 作者 2026-11-22：158 个条目的目录实测 3548px，占满两屏多，
+ * 正文滚动时它一直在旁边「陪跑」。不折叠层级（折叠会藏内容）。
+ */
+.mdh-toc {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  padding-right: var(--mdh-space-1);
+}
+
+.mdh-toc::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mdh-toc::-webkit-scrollbar-thumb {
+  background: var(--mdh-border-strong);
+  border-radius: 3px;
+}
+
+.mdh-toc::-webkit-scrollbar-track {
+  background: transparent;
+}

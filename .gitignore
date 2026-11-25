@@ -1,0 +1,21 @@
+# ── 依赖与构建产物（不进仓库，npm publish 时自动生成）──
+node_modules/
+dist/
+
+# ── 系统文件 ──
+.DS_Store
+*.log
+
+# ── 校验脚本的临时产物 ──
+hermes-verify-*
+*.ast.json
+
+# ── 演示 / 压测 / 截图：跑一次就有，脚本在 tools/ ──
+demo.html
+full.html
+showcase.html
+stress/
+screenshots/
+
+# ── 内部开发记录（放 ../_dev-notes）──
+LOG.md

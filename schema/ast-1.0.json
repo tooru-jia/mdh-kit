@@ -1,0 +1,876 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mdh.dev/schema/ast-0.3.json",
+  "title": "mdh AST 0.3",
+  "description": "mdh 编译产物的对象结构。v0.3 起 quote 为带 children 的结构节点。契约说明见 docs/AST-SPEC.md。",
+  "type": "object",
+  "required": [
+    "ast"
+  ],
+  "properties": {
+    "meta": {
+      "description": "文档元信息（=== 区块内的键值对）",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "diagnostics": {
+      "description": "解析诊断",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/diagnostic"
+      }
+    },
+    "ast": {
+      "$ref": "#/$defs/root"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "diagnostic": {
+      "type": "object",
+      "required": [
+        "level",
+        "message",
+        "line"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "error",
+            "warning"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "id": {
+      "description": "对象 ID：字母 = 层级深度（M/N/O/P… 依次往后），数字 = 同父节点下第几个，`-` = 层级分隔。根节点固定 R。空串表示「该节点不占 ID」（如 slides 的页面容器）。例：M1、M2-N1、M1-N1-O1、M1-N1-O1-P1",
+      "type": "string",
+      "pattern": "^(R|(M[1-9][0-9]*(-N[1-9][0-9]*)?(-O[1-9][0-9]*)?(-P[1-9][0-9]*)?(-Q[1-9][0-9]*)?(-R[1-9][0-9]*)?|M[1-9][0-9]*)|)$"
+    },
+    "base": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "root": {
+      "description": "文档根节点",
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "children"
+      ],
+      "properties": {
+        "type": {
+          "const": "root"
+        },
+        "id": {
+          "const": "R"
+        },
+        "description": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        },
+        "docTitle": {
+          "description": "文档显示名（@title(文档名)）。页面顶部显示；纯文本；不进目录；slides 不显示。与元信息 === title === 无关",
+          "type": "string"
+        }
+      }
+    },
+    "node": {
+      "description": "任意节点",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/heading"
+        },
+        {
+          "$ref": "#/$defs/paragraph"
+        },
+        {
+          "$ref": "#/$defs/list"
+        },
+        {
+          "$ref": "#/$defs/listItem"
+        },
+        {
+          "$ref": "#/$defs/table"
+        },
+        {
+          "$ref": "#/$defs/tableRow"
+        },
+        {
+          "$ref": "#/$defs/column"
+        },
+        {
+          "$ref": "#/$defs/math"
+        },
+        {
+          "$ref": "#/$defs/chart"
+        },
+        {
+          "$ref": "#/$defs/mermaid"
+        },
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "$ref": "#/$defs/page"
+        },
+        {
+          "$ref": "#/$defs/slide"
+        },
+        {
+          "$ref": "#/$defs/genericBlock"
+        },
+        {
+          "$ref": "#/$defs/quote"
+        }
+      ]
+    },
+    "heading": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "level",
+        "text"
+      ],
+      "properties": {
+        "type": {
+          "const": "heading"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "text": {
+          "type": "string"
+        },
+        "blankBefore": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        }
+      },
+      "additionalProperties": false
+    },
+    "paragraph": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "lines"
+      ],
+      "properties": {
+        "type": {
+          "const": "paragraph"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blankBefore": {
+          "description": "段落之前有几个空行（缺省 = 0）。渲染层按此决定视觉留白，上限 10 行",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "list": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "explicit",
+        "params",
+        "children"
+      ],
+      "properties": {
+        "type": {
+          "const": "list"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "explicit": {
+          "description": "是否由 ***list 块声明",
+          "type": "boolean"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "description": "块的引用名，对应源码里的 ref=\"值\"",
+          "type": "string"
+        },
+        "blankBefore": {
+          "description": "列表前的空行数（2026-11-22）：源码空几行，渲染后也空几行",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/listItem"
+          }
+        },
+        "blocks": {
+          "description": "***list 块内的非列表内容（标题/正文等），按 pos 还原顺序",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "pos",
+              "node"
+            ],
+            "properties": {
+              "pos": {
+                "type": "integer"
+              },
+              "node": {
+                "$ref": "#/$defs/block"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "groups": {
+          "description": "已废弃，保留兼容（改用 itemStart）",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "pos",
+              "count"
+            ],
+            "properties": {
+              "pos": {
+                "type": "integer"
+              },
+              "count": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "itemStart": {
+          "description": "第一个列表项在块内的原始行号，用于把 blocks 分成列表前/后",
+          "type": "integer"
+        },
+        "itemPos": {
+          "description": "每个列表项在块内的原始行号（与 children 一一对应），用于把 blocks 插到正确两项之间",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "blankAt": {
+          "description": "***list 块内空行的位置（V5）：作者有意敲的空行要原样渲染",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "listItem": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "marker",
+        "ordered",
+        "lines",
+        "children"
+      ],
+      "properties": {
+        "type": {
+          "const": "listItem"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "marker": {
+          "description": "无序项为 '-'，有序项为数字字符串",
+          "type": "string"
+        },
+        "ordered": {
+          "type": "boolean"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/listItem"
+          }
+        },
+        "task": {
+          "description": "任务列表状态；缺省表示非任务项",
+          "type": "boolean"
+        },
+        "blankBefore": {
+          "description": "该项之前有几个空行（0 或缺省 = 无空行）。渲染层决定换算成多少视觉留白",
+          "type": "integer",
+          "minimum": 0
+        },
+        "lineBlanks": {
+          "description": "每段补充文本之前的空行数，与 lines 一一对应；索引 0（项本身）恒为 0",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "table": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "headers",
+        "rows"
+      ],
+      "properties": {
+        "type": {
+          "const": "table"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "description": "块的引用名，对应源码里的 ref=\"值\"",
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "headers": {
+          "description": "表头行，每行是一组单元格",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tableRow"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "tableRow": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "cells",
+        "cellIds"
+      ],
+      "properties": {
+        "type": {
+          "const": "tableRow"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cellIds": {
+          "description": "与 cells 一一对应的单元格 ID",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "column": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "ratios",
+        "columnBlocks",
+        "columnIds"
+      ],
+      "properties": {
+        "type": {
+          "const": "column"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "description": "块的引用名，对应源码里的 ref=\"值\"",
+          "type": "string"
+        },
+        "ratios": {
+          "description": "各栏宽度比，如 [1, 1]",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "minItems": 1,
+          "maxItems": 3
+        },
+        "columnBlocks": {
+          "description": "每栏内的结构化块",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/block"
+            }
+          }
+        },
+        "columns": {
+          "description": "每栏的原始文本（调试用，往返后可能变化）",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "columnIds": {
+          "description": "每栏的 ID，与 columnBlocks 一一对应",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "math": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "latex"
+      ],
+      "properties": {
+        "type": {
+          "const": "math"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "description": "块的引用名，对应源码里的 ref=\"值\"",
+          "type": "string"
+        },
+        "caption": {
+          "description": "题注，显示给读者；有 caption 才编号（ref 不参与编号）",
+          "type": "string"
+        },
+        "latex": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "chart": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "chartType",
+        "headers",
+        "rows"
+      ],
+      "properties": {
+        "type": {
+          "const": "chart"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "description": "块的引用名，对应源码里的 ref=\"值\"",
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "chartType": {
+          "enum": [
+            "bar",
+            "line",
+            "pie"
+          ]
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "mermaid": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "source"
+      ],
+      "properties": {
+        "type": {
+          "const": "mermaid"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "description": "块的引用名，对应源码里的 ref=\"值\"",
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "source": {
+          "description": "Mermaid 源码，原样保留",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "code": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "content"
+      ],
+      "properties": {
+        "type": {
+          "const": "code"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "page": {
+      "description": "整篇容器，由 @page(...) 声明时生成",
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "preset",
+        "slides",
+        "children"
+      ],
+      "properties": {
+        "type": {
+          "const": "page"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "preset": {
+          "enum": [
+            "html",
+            "slides"
+          ]
+        },
+        "slides": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slide"
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/block"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "slide": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "index",
+        "children"
+      ],
+      "properties": {
+        "type": {
+          "const": "slide"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/block"
+          }
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "block": {
+      "description": "顶层块（不含 page / slide / listItem / tableRow）",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/heading"
+        },
+        {
+          "$ref": "#/$defs/paragraph"
+        },
+        {
+          "$ref": "#/$defs/list"
+        },
+        {
+          "$ref": "#/$defs/table"
+        },
+        {
+          "$ref": "#/$defs/column"
+        },
+        {
+          "$ref": "#/$defs/math"
+        },
+        {
+          "$ref": "#/$defs/chart"
+        },
+        {
+          "$ref": "#/$defs/mermaid"
+        },
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "$ref": "#/$defs/genericBlock"
+        },
+        {
+          "$ref": "#/$defs/quote"
+        }
+      ]
+    },
+    "genericBlock": {
+      "description": "未专门建模的块（如 quote / divider / toc）",
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "blockName",
+        "params",
+        "lines"
+      ],
+      "properties": {
+        "type": {
+          "const": "block"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "blockName": {
+          "type": "string"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "description": "块的引用名，对应源码里的 ref=\"值\"",
+          "type": "string"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "quote": {
+      "description": "引用块，内部含完整块结构",
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "children"
+      ],
+      "properties": {
+        "type": {
+          "const": "quote"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/block"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

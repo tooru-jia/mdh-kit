@@ -1,0 +1,13 @@
+{
+  "name": "14-list-contains-block",
+  "note": "覆盖规则 4·补 —— ***list 里顶格写 table：与列表项平级，依次拿 M2、M3、M4",
+  "source": "***list\n\n- 项一\n\n***table\nhead: A\n- 1\n***table-end\n\n- 项二\n\n***list-end",
+  "ids": [
+    "R",
+    "M1",
+    "M2",
+    "M3",
+    "M3-N1",
+    "M4"
+  ]
+}

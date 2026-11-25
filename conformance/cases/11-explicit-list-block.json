@@ -1,0 +1,11 @@
+{
+  "name": "11-explicit-list-block",
+  "note": "覆盖规则 3 —— ***list 是声明型：声明 M1，项是平级内容 M2、M3；裸列表的项则是 M1、M2",
+  "source": "***list\n- 项一\n- 项二\n***list-end",
+  "ids": [
+    "R",
+    "M1",
+    "M2",
+    "M3"
+  ]
+}

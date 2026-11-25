@@ -1,0 +1,32 @@
+{
+  "name": "@mdh/theme",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "mdh 第三层：默认主题 CSS、源码高亮配色与交互层（选中 / 显示 ID / 可选编辑）",
+  "license": "MIT",
+  "keywords": [
+    "mdh",
+    "theme",
+    "css",
+    "interact",
+    "highlight"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./interact": "./src/interact.ts",
+    "./css": "./themes/default.css",
+    "./default.css": "./themes/default.css",
+    "./raw": "./src/css-raw.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "themes",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css",
+    "./src/mdh-interact-core.js",
+    "./src/mdh-interact.js"
+  ]
+}

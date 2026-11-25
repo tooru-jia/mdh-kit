@@ -1,0 +1,65 @@
+{
+  "name": "@mdh/compile",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "mdh 编译编排：骨架 + 插件渲染（公式、代码高亮、Mermaid、图表）。按宿主分成 node / browser 两个入口。",
+  "license": "MIT",
+  "keywords": [
+    "mdh",
+    "compile",
+    "render",
+    "katex",
+    "mermaid",
+    "chart"
+  ],
+  "main": "./dist/node/index.cjs",
+  "module": "./dist/node/index.js",
+  "types": "./dist/node/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/node/index.d.ts",
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.cjs"
+    },
+    "./node": {
+      "types": "./dist/node/index.d.ts",
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.cjs"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.ts",
+      "import": "./dist/browser/index.js",
+      "require": "./dist/browser/index.cjs"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js",
+      "require": "./dist/core.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "dependencies": {
+    "@mdh/core": "1.0.0",
+    "@mdh/render": "1.0.0"
+  },
+  "peerDependencies": {
+    "chart.js": "^4.0.0",
+    "highlight.js": "^11.0.0",
+    "katex": "^0.16.0 || ^0.19.0",
+    "mermaid": "^11.0.0 || ^12.0.0",
+    "playwright": "^1.40.0"
+  },
+  "peerDependenciesMeta": {
+    "playwright": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "tsup"
+  }
+}

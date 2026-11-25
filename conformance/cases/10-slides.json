@@ -1,0 +1,14 @@
+{
+  "name": "10-slides",
+  "note": "覆盖规则 3 —— slides：页是声明型顶层，页 M1、M2；页内内容与页平级编号",
+  "source": "@page(slides)\n# 一页\n正文\n@next-slide\n# 二页",
+  "ids": [
+    "R",
+    "M1",
+    "M2",
+    "M2-N1",
+    "M2-N2",
+    "M3",
+    "M3-N1"
+  ]
+}

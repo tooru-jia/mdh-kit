@@ -1,0 +1,10 @@
+{
+  "name": "08-column-no-reset",
+  "note": "覆盖规则 5·补 —— 分栏是声明型：分栏 M1，栏是平级内容 M2，栏内内容进 M2-N1",
+  "source": "***column(1fr)\n\t- abc\n\n***column-end",
+  "ids": [
+    "R",
+    "M1",
+    "M2-N1"
+  ]
+}

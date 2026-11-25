@@ -1,0 +1,31 @@
+{
+  "name": "@mdh/core",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "mdh 内核：解析器、AST 契约、反向序列化、单块解析",
+  "keywords": [
+    "mdh",
+    "parser",
+    "markdown",
+    "ast"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup"
+  }
+}

@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22.6 是 --experimental-strip-types 的最低要求
+        node: [22, 24]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      # 子包的 dist 是构建产物（不入库），测试前必须先 build
+      - name: 构建
+        run: npm run build
+
+      - name: 类型检查
+        run: npm run typecheck
+
+      - name: 单元测试
+        run: npm test
+
+      - name: ID 规范一致性
+        run: npm run conformance
+
+      - name: 文档示例与实现一致
+        run: npm run verify:id-doc
+
+      - name: 用例覆盖全部规则
+        run: npm run verify:coverage
+
+      - name: 打包链接有效
+        run: npm run verify:package-links
+
+      - name: 发布预演（5 个包都能打包）
+        run: node tools/release-dry-run.mjs

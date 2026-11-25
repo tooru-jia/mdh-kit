@@ -1,0 +1,12 @@
+{
+  "name": "15-list-nested-block",
+  "note": "覆盖规则 3 —— ***list 里再放 ***list：内层 list 也是平级内容，占下一个 M 号",
+  "source": "***list\n\n- 项一\n\n***list\n\n- 子项\n\n***list-end\n\n***list-end",
+  "ids": [
+    "R",
+    "M1",
+    "M2",
+    "M3",
+    "M4"
+  ]
+}

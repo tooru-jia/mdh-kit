@@ -1,0 +1,151 @@
+/**
+ * 参考 CSS：演示如何用 mdh-render 输出的 class 与 data-* 属性写样式
+ *
+ * 这不是"官方主题"，只是说明「第三层能怎么写」。
+ * 真正的主题包（mdh-theme-default）会在这套基础上完善。
+ *
+ * 用法：
+ *   <link rel="stylesheet" href="theme.css">
+ *   <div id="app"></div>
+ *   <script>app.innerHTML = render(ast)</script>
+ */
+
+/* ===== 文档容器 ===== */
+.mdh-document {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #24292f;
+}
+
+/* ===== 标题 ===== */
+.mdh-heading {
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.6em 0 0.6em;
+}
+.mdh-heading-1 { font-size: 2em; }
+.mdh-heading-2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+.mdh-heading-3 { font-size: 1.25em; }
+.mdh-heading-4, .mdh-heading-5, .mdh-heading-6 { font-size: 1em; }
+
+/* ===== 段落 ===== */
+.mdh-paragraph { margin: 0.8em 0; }
+
+/* ===== 列表 ===== */
+.mdh-list { margin: 0.8em 0; padding-left: 1.6em; }
+.mdh-list-unordered { list-style: disc; }
+.mdh-list-ordered { list-style: decimal; }
+.mdh-item { margin: 0.3em 0; }
+.mdh-item-para { display: block; margin-top: 0.2em; color: #57606a; }
+
+/* 任务列表 */
+.mdh-item-task { list-style: none; position: relative; padding-left: 1.2em; }
+.mdh-item-task::before {
+  content: "☐";
+  position: absolute;
+  left: 0;
+}
+
+/* ===== 表格 ===== */
+.mdh-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.2em 0;
+  font-size: 0.95em;
+}
+.mdh-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  color: #57606a;
+  padding-bottom: 0.4em;
+}
+.mdh-table th,
+.mdh-table td {
+  border: 1px solid #d0d7de;
+  padding: 0.5em 0.8em;
+  text-align: left;
+}
+.mdh-table th { background: #f6f8fa; font-weight: 600; }
+
+/* 表格编号：「表(1)」显示在题注位置 */
+.mdh-table[data-mdh-kind="table"] caption::before {
+  content: "表(" attr(data-mdh-number) ") ";
+  color: #57606a;
+}
+
+/* ===== 引用 ===== */
+.mdh-quote {
+  margin: 1em 0;
+  padding: 0.2em 1em;
+  border-left: 4px solid #d0d7de;
+  color: #57606a;
+}
+
+/* ===== 分割线 ===== */
+.mdh-divider {
+  border: none;
+  border-top: 1px solid #d0d7de;
+  margin: 2em 0;
+}
+
+/* ===== 代码 ===== */
+.mdh-code {
+  margin: 1em 0;
+  padding: 1em;
+  background: #f6f8fa;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+.mdh-code code { background: none; padding: 0; }
+
+/* ===== 分栏 ===== */
+.mdh-columns { display: flex; gap: 2em; margin: 1.2em 0; }
+.mdh-col { flex: 1; min-width: 0; }
+
+/* ===== 公式 / 图表 / Mermaid 占位 ===== */
+.mdh-math {
+  margin: 1.2em 0;
+  text-align: center;
+  min-height: 1em;
+}
+.mdh-figure { margin: 1.2em 0; text-align: center; }
+.mdh-figure figcaption { font-size: 0.9em; color: #57606a; margin-top: 0.5em; }
+
+/* 图编号：「图(1)」显示在题注位置 */
+.mdh-figure[data-mdh-kind="figure"] figcaption::before {
+  content: "图(" attr(data-mdh-number) ") ";
+}
+
+.mdh-chart-body { min-height: 260px; }
+.mdh-mermaid-body { margin: 0; text-align: left; }
+
+/* ===== 正文引用：@名字 → 「表(1)」 ===== */
+.mdh-ref::before { content: "(" attr(data-mdh-ref-number) ")"; }
+.mdh-ref[data-mdh-ref-kind="table"]::before {
+  content: "表(" attr(data-mdh-ref-number) ")";
+}
+.mdh-ref[data-mdh-ref-kind="figure"]::before {
+  content: "图(" attr(data-mdh-ref-number) ")";
+}
+.mdh-ref[data-mdh-ref-kind="equation"]::before {
+  content: "式(" attr(data-mdh-ref-number) ")";
+}
+
+/* ===== 幻灯片 ===== */
+.mdh-page-slides .mdh-slide {
+  aspect-ratio: 16 / 9;
+  padding: 40px 60px;
+  margin-bottom: 24px;
+  border: 1px solid #eaecef;
+  box-sizing: border-box;
+}
+
+/* ===== 目录 ===== */
+.mdh-toc { margin: 1.2em 0; padding: 1em 1.4em; background: #f6f8fa; border-radius: 6px; }

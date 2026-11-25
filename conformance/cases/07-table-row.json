@@ -1,0 +1,11 @@
+{
+  "name": "07-table-row",
+  "note": "覆盖规则 7 —— 表格是内容型：表格 M1，行是 M1-N1、M1-N2；单元格不生成 ID",
+  "source": "***table\nhead: A, B\n- 1, 2\n- 3, 4\n***table-end",
+  "ids": [
+    "R",
+    "M1",
+    "M1-N1",
+    "M1-N2"
+  ]
+}
